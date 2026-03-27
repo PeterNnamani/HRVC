@@ -147,12 +147,6 @@ export default function KnowYourRights() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Hero */}
-        <HeroSection
-          title="Know Your Rights"
-          description="Understand your entitlements and protections as an NYSC corps member."
-        />
-
         {/* Rights Categories */}
         <section className="py-16 md:py-20">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -272,6 +266,9 @@ export default function KnowYourRights() {
         </section>
       </main>
 
+      <section className='bg-accent'>
+        <div style={{ height: '9px', width: '100%', borderRadius: '50%' }}></div>
+      </section>
       <Footer />
     </div>
   );
