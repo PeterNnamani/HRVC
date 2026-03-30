@@ -147,13 +147,28 @@ export default function KnowYourRights() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Rights Categories */}
+        <section className="py-16 md:py-20 bg-slate-50">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="rounded-[2rem] border border-border bg-white p-10 shadow-sm">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent/80 mb-3">
+                Know Your Rights
+              </p>
+              <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
+                Your rights as an NYSC corps member, explained clearly.
+              </h1>
+              <p className="text-foreground/70 leading-8">
+                Explore practical guidance on allowances, safety, workplace protections, and reporting channels so you know what is owed to you and how to act if that trust is broken.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section className="py-16 md:py-20">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="space-y-16">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="space-y-10">
               {RIGHTS_DATA.map((section) => (
-                <div key={section.category}>
-                  <h2 className="text-3xl font-bold text-foreground mb-8 border-b-2 border-accent pb-4">
+                <div key={section.category} className="rounded-[2rem] border border-border bg-card p-8 shadow-sm">
+                  <h2 className="text-3xl font-bold text-foreground mb-6 border-b border-accent/20 pb-5">
                     {section.category}
                   </h2>
                   <FAQ items={section.items} />

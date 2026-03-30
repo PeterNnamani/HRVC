@@ -73,13 +73,20 @@ export default function Blog() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Hero */}
         <HeroSection
           title="Blog & Stories"
           description="Resources, guides, and stories from the HRVC community to help you navigate your service year."
+          primaryCta={{ label: 'Explore the latest', href: '#latest' }}
         />
 
-        {/* Featured Posts */}
+        <section className="py-6 md:py-10">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p className="text-base text-foreground/70">
+              Read reliable guidance on rights, reporting, and wellbeing from corps members, legal advisors, and our community.
+            </p>
+          </div>
+        </section>
+
         {featuredPosts.length > 0 && (
           <section className="py-16 md:py-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -87,12 +94,12 @@ export default function Blog() {
                 Featured Stories
               </h2>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {featuredPosts.map((post) => (
                   <Link key={post.id} href={`/blog/${post.id}`}>
-                    <div className="bg-card border border-border rounded-lg overflow-hidden hover:border-accent hover:shadow-lg transition-all h-full flex flex-col">
-                      <div className="h-48 bg-gradient-to-br from-secondary/20 to-accent/10 flex items-center justify-center">
-                        <div className="text-6xl opacity-30">📖</div>
+                    <div className="bg-card border border-border rounded-[1.75rem] overflow-hidden hover:border-accent hover:shadow-2xl transition-all h-full flex flex-col">
+                      <div className="h-52 bg-linear-to-br from-accent/10 to-secondary/5 flex items-center justify-center">
+                        <div className="text-6xl opacity-25">📖</div>
                       </div>
 
                       <div className="p-6 flex flex-col flex-1">
@@ -102,11 +109,11 @@ export default function Blog() {
                           </span>
                         </div>
 
-                        <h3 className="text-xl font-bold text-foreground mb-3 line-clamp-2">
+                        <h3 className="text-2xl font-bold text-foreground mb-3 line-clamp-2">
                           {post.title}
                         </h3>
 
-                        <p className="text-foreground/60 text-sm mb-4 flex-1 line-clamp-3">
+                        <p className="text-foreground/65 text-sm mb-4 flex-1 line-clamp-3">
                           {post.excerpt}
                         </p>
 
@@ -133,48 +140,46 @@ export default function Blog() {
           </section>
         )}
 
-        {/* All Posts */}
-        <section className={`py-16 md:py-20 ${featuredPosts.length > 0 ? 'bg-muted/30' : ''}`}>
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="latest" className="py-16 md:py-20 bg-muted/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
               Latest Articles
             </h2>
 
-            <div className="space-y-6">
+            <div className="grid gap-6 lg:grid-cols-2">
               {regularPosts.map((post) => (
                 <Link key={post.id} href={`/blog/${post.id}`}>
-                  <div className="bg-card border border-border rounded-lg p-6 hover:border-accent hover:shadow-lg transition-all">
-                    <div className="flex flex-col md:flex-row gap-6">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className="text-xs font-semibold text-accent bg-accent/10 px-3 py-1 rounded-full">
-                            {post.category}
-                          </span>
-                        </div>
-
-                        <h3 className="text-xl font-bold text-foreground mb-2 hover:text-accent transition-colors">
-                          {post.title}
-                        </h3>
-
-                        <p className="text-foreground/60 mb-4">
-                          {post.excerpt}
-                        </p>
-
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/60">
-                          <div className="flex items-center gap-1">
-                            <Calendar size={16} />
-                            {post.date}
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <User size={16} />
-                            {post.author}
-                          </div>
-                          <div>{post.readTime} min read</div>
-                        </div>
+                  <div className="bg-card border border-border rounded-3xl p-6 hover:border-accent hover:shadow-lg transition-all group">
+                    <div className="flex flex-col gap-5">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-semibold text-accent bg-accent/10 px-3 py-1 rounded-full">
+                          {post.category}
+                        </span>
                       </div>
 
-                      <div className="flex-shrink-0 text-accent font-semibold flex items-end">
-                        Read <ArrowRight size={18} className="ml-2" />
+                      <div>
+                        <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
+                          {post.title}
+                        </h3>
+                        <p className="text-foreground/65 leading-7">
+                          {post.excerpt}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/60">
+                        <div className="flex items-center gap-1">
+                          <Calendar size={16} />
+                          {post.date}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <User size={16} />
+                          {post.author}
+                        </div>
+                        <div>{post.readTime} min read</div>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-accent font-semibold">
+                        Read <ArrowRight size={18} />
                       </div>
                     </div>
                   </div>
@@ -184,48 +189,57 @@ export default function Blog() {
           </div>
         </section>
 
-        {/* Newsletter Section */}
-        <section className="py-16 md:py-20 bg-primary text-primary-foreground">
-          <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Stay Updated
-            </h2>
-            <p className="text-lg opacity-90 mb-8">
-              Get the latest articles, resources, and stories delivered to your inbox.
-            </p>
+        <section className="py-16 md:py-20 bg-muted/50">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="rounded-[2rem] border border-border/70 bg-card p-10 shadow-2xl">
+              <div className="text-center">
+                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-accent/80 mb-3">
+                  Stay connected
+                </p>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                  Never miss a new guide or story.
+                </h2>
+                <p className="text-foreground/70 leading-8 max-w-2xl mx-auto">
+                  Join our newsletter for practical rights guidance, safety tips, and inspiring stories tailored to NYSC corps members.
+                </p>
+              </div>
 
-            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg bg-primary-foreground text-primary placeholder:text-primary/50 focus:outline-none focus:ring-2 focus:ring-accent"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-colors whitespace-nowrap"
-              >
-                Subscribe
-              </button>
-            </form>
+              <form className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <label className="sr-only" htmlFor="blog-email">
+                  Email address
+                </label>
+                <input
+                  id="blog-email"
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 min-w-0 rounded-2xl border border-border bg-background px-5 py-4 text-foreground placeholder:text-foreground/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center rounded-2xl bg-accent px-6 py-4 text-sm font-semibold text-accent-foreground transition hover:bg-accent/90"
+                >
+                  Subscribe
+                </button>
+              </form>
 
-            <p className="text-sm opacity-75 mt-4">
-              We respect your privacy. Unsubscribe at any time.
-            </p>
+              <p className="mt-5 text-sm text-foreground/60 text-center">
+                We respect your privacy and only send updates that help you stay safe, informed, and supported.
+              </p>
+            </div>
           </div>
         </section>
 
-        {/* Categories Section */}
         <section className="py-16 md:py-20">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
               Browse by Category
             </h2>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {['Rights', 'Stories', 'Reporting', 'Guide', 'Wellness', 'News'].map((category) => (
                 <button
                   key={category}
-                  className="px-6 py-3 bg-card border border-border rounded-lg text-foreground hover:border-accent hover:bg-muted/30 transition-colors font-medium"
+                  className="px-6 py-3 bg-card border border-border rounded-2xl text-foreground hover:border-accent hover:bg-muted/30 transition-colors font-medium"
                 >
                   {category}
                 </button>

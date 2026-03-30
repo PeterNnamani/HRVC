@@ -100,44 +100,60 @@ export function VolunteerRegistrationForm() {
     setIsSubmitting(true);
 
     try {
-      const submitData = new FormData();
-      Object.entries(formData).forEach(([key, value]) => {
-        if (key === 'photo' && value instanceof File) {
-          submitData.append(key, value);
-        } else if (value) {
-          submitData.append(key, value as string);
-        }
-      });
+      // Prepare the registration data
+      const registrationData = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        state: formData.state,
+        localGovernment: formData.localGovernment,
+        refereeFullName: formData.refereeFullName,
+        refereeEmail: formData.refereeEmail,
+        refereePhone: formData.refereePhone,
+        refereeRole: formData.refereeRole,
+        photoFilename: formData.photo ? formData.photo.name : null,
+      };
 
-      // Replace with your actual API endpoint
-      const response = await fetch('/api/volunteer-registration', {
+      // Send the registration to the API
+      const response = await fetch('/api/send-registration-email', {
         method: 'POST',
-        body: submitData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(registrationData),
       });
 
-      if (response.ok) {
-        alert('Registration successful! Thank you for becoming a volunteer.');
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          state: 'Abia',
-          localGovernment: NIGERIAN_STATES['Abia'][0],
-          address: '',
-          photo: null,
-          refereeFullName: '',
-          refereeEmail: '',
-          refereePhone: '',
-          refereeRole: '',
-        });
-        setPhotoPreview('');
-      } else {
-        alert('Registration failed. Please try again.');
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send registration email');
       }
+
+      // Show success message
+      alert('✓ Registration successful! An email has been sent to peternnamani001@gmail.com with your details.');
+
+      // Reset the form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        state: 'Abia',
+        localGovernment: NIGERIAN_STATES['Abia'][0],
+        address: '',
+        photo: null,
+        refereeFullName: '',
+        refereeEmail: '',
+        refereePhone: '',
+        refereeRole: '',
+      });
+      setPhotoPreview('');
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred. Please try again.';
+      alert(`⚠ ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
