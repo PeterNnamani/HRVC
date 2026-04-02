@@ -5,15 +5,15 @@ import { Button } from '@/components/ui/button';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 
 const VIOLATION_TYPES = [
-  'Delayed/Unpaid Allowance',
-  'Inadequate Accommodation',
-  'Poor Medical Care',
-  'Safety & Security Threat',
-  'Harassment or Bullying',
+  'Physical Abuse or Assault',
   'Sexual Harassment/Assault',
-  'Denial of Leave/Time Off',
-  'Unfair Dismissal',
-  'Restriction of Freedom',
+  'Discrimination or Harassment',
+  'Denial of Basic Services',
+  'Unsafe Living or Working Conditions',
+  'Stigmatization or Retaliation',
+  'Privacy or Data Misuse',
+  'Corruption or Bribery',
+  'Violation of Freedom of Expression',
   'Other',
 ];
 
@@ -156,7 +156,7 @@ export function ReportForm() {
           type="text"
           id="location"
           name="location"
-          placeholder="e.g., Lagos State, XYZ Company"
+          placeholder="e.g., Enugu State, workplace, community center"
           value={formData.location}
           onChange={handleChange}
           className="w-full px-4 py-3 border border-border rounded-lg bg-background text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent"

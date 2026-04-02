@@ -8,7 +8,7 @@ const BLOG_POSTS = [
   {
     id: 1,
     title: 'Understanding Your Welfare Rights: A Complete Guide',
-    excerpt: 'Learn about every benefit and allowance you are entitled to as an NYSC corps member, including insurance, housing, and medical care.',
+    excerpt: 'Learn about the rights and protections available to you under Nigerian law, including access to services, safety, and legal support.',
     date: 'March 15, 2024',
     author: 'HRVC Team',
     category: 'Rights',
@@ -27,8 +27,8 @@ const BLOG_POSTS = [
   },
   {
     id: 3,
-    title: 'Stories of Change: How Corps Members Are Fighting Back',
-    excerpt: 'Real stories from corps members who faced violations, reported them, and successfully sought justice. Names changed to protect privacy.',
+    title: 'Stories of Change: How People Are Fighting Back',
+    excerpt: 'Real stories from people who faced violations, reported them, and successfully sought justice. Names changed to protect privacy.',
     date: 'March 5, 2024',
     author: 'Anonymous',
     category: 'Stories',
@@ -38,7 +38,7 @@ const BLOG_POSTS = [
   {
     id: 4,
     title: 'Election Duties: Know Your Rights and Responsibilities',
-    excerpt: 'A comprehensive guide to your duties, rights, and protections while serving as an election officer during NYSC service.',
+    excerpt: 'A comprehensive guide to your duties, rights, and protections while serving as an election officer.',
     date: 'February 28, 2024',
     author: 'HRVC Team',
     category: 'Rights',
@@ -75,7 +75,7 @@ export default function Blog() {
       <main className="flex-1">
         <HeroSection
           title="Blog & Stories"
-          description="Resources, guides, and stories from the HRVC community to help you navigate your service year."
+          description="Resources, guides, and stories from the HRVC community to help you understand your rights and stay informed."
           primaryCta={{ label: 'Explore the latest', href: '#latest' }}
         />
 
@@ -200,7 +200,7 @@ export default function Blog() {
                   Never miss a new guide or story.
                 </h2>
                 <p className="text-foreground/70 leading-8 max-w-2xl mx-auto">
-                  Join our newsletter for practical rights guidance, safety tips, and inspiring stories tailored to NYSC corps members.
+                  Join our newsletter for practical rights guidance, safety tips, and inspiring stories tailored to people who care about justice.
                 </p>
               </div>
 

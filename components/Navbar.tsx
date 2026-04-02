@@ -9,8 +9,8 @@ import { Button } from '@/components/ui/button';
 const NAV_ITEMS = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Know Your Rights', href: '/know-your-rights' },
-  { label: 'Blog', href: '/blog' },
+  { label: 'Volunteer', href: '/get-involved' },
+  { label: 'Resources', href: '/resources' },
   { label: 'Contact', href: '/contact' },
 ];
 

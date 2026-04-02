@@ -16,7 +16,7 @@ export default function About() {
                 Building a future where rights are known, supported, and defended.
               </h1>
               <p className="text-lg leading-8 text-gray-700 max-w-2xl">
-                HRVC exists to support NYSC corps members with clear guidance, strong advocacy, and a community that refuses to let injustice stand. We bring together legal insight, trusted partners, and practical tools so every corps member can act with confidence.
+                The Human Rights Volunteer Corps (HRVC) is a movement in Nigeria dedicated to creating a new Human Rights culture, anchored on the rule of law, and driven by the supremacy of the people. Our mission is to mobilize, inspire, and equip individuals and institutions to respect everyone's rights, everywhere and every time.
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -29,7 +29,7 @@ export default function About() {
               <div className="rounded-3xl border border-border bg-white/90 p-6 shadow-sm">
                 <h2 className="text-xl font-semibold text-gray-900 mb-3">Our Purpose</h2>
                 <p className="text-gray-600 leading-7">
-                  To empower, inform, and protect NYSC corps members by creating accessible resources, trusted advocacy, and a welcoming community of allies.
+                  To empower, inform, and protect people across Nigeria by creating accessible resources, trusted advocacy, and a welcoming community of allies.
                 </p>
               </div>
             </div>
@@ -52,7 +52,7 @@ export default function About() {
           <div className="rounded-4xl border border-border bg-white/90 p-8 shadow-sm">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Why We Exist</h2>
             <p className="text-gray-700 leading-8 mb-6">
-              Every corps member deserves clarity about their rights, access to support, and a safe space to speak up. HRVC was created to bridge the gap between information and justice, so even the smallest concern can become a step toward meaningful change.
+              HRVC is involved in activities that promote human rights and support people who have been wronged. We offer assistance for all cases of human rights abuse and are committed to creating an enabling environment for national transformation.
             </p>
             <ul className="space-y-4 text-gray-700">
               <li className="flex gap-3">

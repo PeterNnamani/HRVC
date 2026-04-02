@@ -7,8 +7,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'HRVC - Human Rights Violations Center',
-  description: 'Protecting the rights of NYSC corps members. Report violations, know your rights, and join our community.',
+  title: 'HRVC - Human Rights Volunteer Corps',
+  description: 'The Human Rights Volunteer Corps (HRVC) is a movement in Nigeria committed to creating a new Human Rights culture anchored on the rule of law and the supremacy of the people.',
   generator: 'v0.app',
   icons: {
     icon: [

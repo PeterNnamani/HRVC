@@ -95,7 +95,7 @@ export default function Report() {
                     Send your report directly to our WhatsApp number for quick assistance.
                   </p>
                   <a
-                    href="https://wa.me/2341234567890"
+                    href="https://wa.me/2348078836002"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-accent font-semibold hover:underline"
@@ -113,10 +113,10 @@ export default function Report() {
                     Prefer to speak to someone? Call our hotline to report verbally.
                   </p>
                   <a
-                    href="tel:+2341234567890"
+                    href="tel:+2348078836002"
                     className="text-accent font-semibold hover:underline"
                   >
-                    Call: +234 (123) 456-7890 →
+                    Call: +234 807 883 6002 →
                   </a>
                 </div>
               </div>

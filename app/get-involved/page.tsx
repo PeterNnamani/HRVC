@@ -12,7 +12,7 @@ export default function GetInvolved() {
         {/* Hero */}
         <HeroSection
           title="Get Involved"
-          description="Join our movement to protect the rights of corps members. There are many ways to contribute."
+          description="Join our movement to protect human rights in Nigeria. There are many ways to contribute."
         />
 
         {/* Ways to Help */}
@@ -30,7 +30,7 @@ export default function GetInvolved() {
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-4">Volunteer with Us</h3>
                 <p className="text-foreground/60 mb-6">
-                  Help protect corps members by volunteering your time and skills. We have opportunities for various roles including outreach, support, and administration.
+                  Help protect people's rights by volunteering your time and skills. We have opportunities for various roles including outreach, support, and administration.
                 </p>
                 <div className="space-y-2 mb-6">
                   <p className="text-sm text-foreground/70">
@@ -59,7 +59,7 @@ export default function GetInvolved() {
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-4">Donate to Support Us</h3>
                 <p className="text-foreground/60 mb-6">
-                  Your financial contributions help us continue our work protecting corps members. Every donation makes a difference.
+                  Your financial contributions help us continue our work protecting rights and supporting survivors. Every donation makes a difference.
                 </p>
                 <div className="space-y-2 mb-6">
                   <p className="text-sm text-foreground/70">
@@ -87,7 +87,7 @@ export default function GetInvolved() {
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-4">Become an Advocate</h3>
                 <p className="text-foreground/60 mb-6">
-                  Help spread awareness about corps members' rights. Use your voice and platform to advocate for change in your community.
+                  Help spread awareness about human rights. Use your voice and platform to advocate for change in your community.
                 </p>
                 <div className="space-y-2 mb-6">
                   <p className="text-sm text-foreground/70">
@@ -275,7 +275,7 @@ export default function GetInvolved() {
                       Rights Education Webinar
                     </h3>
                     <p className="text-foreground/60 text-sm mb-2">
-                      Learn about NYSC corps member rights from legal experts
+                      Learn about rights and protections from legal experts.
                     </p>
                     <p className="text-sm text-accent font-medium">April 5, 2024 • 6:00 PM WAT</p>
                   </div>
@@ -295,7 +295,7 @@ export default function GetInvolved() {
                       Community Awareness Event
                     </h3>
                     <p className="text-foreground/60 text-sm mb-2">
-                      Join us for a community discussion about corps member rights in your area
+                      Join us for a community discussion about human rights in your area.
                     </p>
                     <p className="text-sm text-accent font-medium">April 12, 2024 • 10:00 AM WAT</p>
                   </div>

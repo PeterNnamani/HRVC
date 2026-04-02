@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { HeroSection } from '@/components/HeroSection';
 import { Mail, Phone, MapPin, MessageCircle, Clock } from 'lucide-react';
 
 export default function Contact() {
@@ -8,15 +9,10 @@ export default function Contact() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Hero */}
-        <section className="py-12 md:py-16 bg-primary text-primary-foreground">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
-            <p className="text-lg opacity-90">
-              Have questions? Want to get involved? Reach out to us through any of our contact channels.
-            </p>
-          </div>
-        </section>
+        <HeroSection
+          title="Contact Us"
+          description="The Human Rights Volunteer Corps (HRVC) is a movement in Nigeria dedicated to creating a new Human Rights culture, anchored on the rule of law, and driven by the supremacy of the people. For more information or to get involved, contact HRVC at 0807 883 6002 or visit our office in Enugu."
+        />
 
         {/* Contact Methods */}
         <section className="py-16 md:py-20">
@@ -43,12 +39,12 @@ export default function Contact() {
                   <Phone size={24} className="text-accent" />
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">Phone</h3>
-                <p className="text-foreground/60 mb-4">Call us during business hours</p>
+                <p className="text-foreground/60 mb-4">Call us during business hours or for urgent support.</p>
                 <a
-                  href="tel:+2341234567890"
+                  href="tel:+2348078836002"
                   className="text-accent font-semibold hover:underline"
                 >
-                  +234 (123) 456-7890
+                  +234 807 883 6002
                 </a>
               </div>
 
@@ -60,7 +56,7 @@ export default function Contact() {
                 <h3 className="text-lg font-semibold text-foreground mb-2">WhatsApp</h3>
                 <p className="text-foreground/60 mb-4">Quick messaging for urgent matters</p>
                 <a
-                  href="https://wa.me/2341234567890"
+                  href="https://wa.me/2348078836002"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-accent font-semibold hover:underline"
@@ -79,9 +75,9 @@ export default function Contact() {
                     <h3 className="text-lg font-semibold text-foreground">Office Location</h3>
                   </div>
                   <p className="text-foreground/60">
-                    123 Freedom Street<br />
-                    Abuja, Nigeria<br />
-                    FCT 900001
+                    12, Connor Street<br />
+                    Asata, Enugu<br />
+                    Nigeria
                   </p>
                 </div>
 

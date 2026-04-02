@@ -124,6 +124,10 @@
   }
 }
 
+.octagon-mask {
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+
 @keyframes zoom {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }

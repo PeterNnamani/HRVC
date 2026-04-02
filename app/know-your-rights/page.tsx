@@ -147,21 +147,10 @@ export default function KnowYourRights() {
       <Navbar />
 
       <main className="flex-1">
-        <section className="py-16 md:py-20 bg-slate-50">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="rounded-[2rem] border border-border bg-white p-10 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent/80 mb-3">
-                Know Your Rights
-              </p>
-              <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-                Your rights as an NYSC corps member, explained clearly.
-              </h1>
-              <p className="text-foreground/70 leading-8">
-                Explore practical guidance on allowances, safety, workplace protections, and reporting channels so you know what is owed to you and how to act if that trust is broken.
-              </p>
-            </div>
-          </div>
-        </section>
+        <HeroSection
+          title="Know Your Rights"
+          description="Explore practical guidance on allowances, safety, workplace protections, and reporting channels so you know what is owed to you and how to act if that trust is broken."
+        />
 
         <section className="py-16 md:py-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

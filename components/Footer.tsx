@@ -1,92 +1,87 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, Phone, MessageCircle, Heart } from 'lucide-react';
+import { Mail, Phone, MessageCircle, MapPin, Heart } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="bg-popover-foreground text-primary-foreground mt-0">
+    <footer className="bg-slate-950 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* About Section */}
           <div>
             <h3 className="font-bold text-lg mb-4">HRVC</h3>
-            <p className="text-sm opacity-90">
-              Protecting the rights of NYSC corps members and advocating for human rights in Nigeria.
+            <p className="text-sm text-slate-300">
+              HRVC is a movement in Nigeria dedicated to protecting rights, raising awareness, and supporting survivors through volunteer action and legal outreach.
             </p>
-            <p className="text-xs mt-4 opacity-75">
-              Note: HRVC is not affiliated with the official NYSC organization.
+            <p className="text-xs mt-4 text-slate-500">
+              Building safety, accountability, and dignity for every community.
             </p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="font-bold text-lg mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-sm text-slate-300">
               <li>
-                <Link href="/know-your-rights" className="opacity-90 hover:opacity-100 transition-opacity">
+                <Link href="/know-your-rights" className="hover:text-white transition-colors">
                   Know Your Rights
                 </Link>
               </li>
               <li>
-                <Link href="/report" className="opacity-90 hover:opacity-100 transition-opacity">
+                <Link href="/report" className="hover:text-white transition-colors">
                   Report a Violation
                 </Link>
               </li>
               <li>
-                <Link href="/resources" className="opacity-90 hover:opacity-100 transition-opacity">
+                <Link href="/resources" className="hover:text-white transition-colors">
                   Resources
                 </Link>
               </li>
               <li>
-                <Link href="/get-involved" className="opacity-90 hover:opacity-100 transition-opacity">
+                <Link href="/get-involved" className="hover:text-white transition-colors">
                   Get Involved
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact Section */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Get In Touch</h3>
-            <div className="space-y-3 text-sm">
+            <h3 className="font-bold text-lg mb-4">Contact</h3>
+            <div className="space-y-3 text-sm text-slate-300">
               <div className="flex items-center gap-2">
                 <Mail size={16} />
-                <a href="mailto:info@hrvc.org" className="opacity-90 hover:opacity-100 transition-opacity">
+                <a href="mailto:info@hrvc.org" className="hover:text-white transition-colors">
                   info@hrvc.org
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <Phone size={16} />
-                <a href="tel:+2341234567890" className="opacity-90 hover:opacity-100 transition-opacity">
-                  +234 (123) 456-7890
+                <a href="tel:+2348078836002" className="hover:text-white transition-colors">
+                  +234 807 883 6002
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <MessageCircle size={16} />
-                <a href="https://wa.me/2341234567890" target="_blank" rel="noopener noreferrer" className="opacity-90 hover:opacity-100 transition-opacity">
+                <a href="https://wa.me/2348078836002" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                   WhatsApp
                 </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin size={16} />
+                <p>12, Connor Street, Asata, Enugu, Nigeria</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/20 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center text-sm">
-            <p className="opacity-75">
-              © 2024 HRVC. All rights reserved.
-            </p>
+        <div className="border-t border-slate-800 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
+            <p>© 2026 HRVC. All rights reserved.</p>
             <div className="flex items-center gap-4 mt-4 md:mt-0">
-              <Link href="/contact" className="opacity-75 hover:opacity-100 transition-opacity">
-                Contact
-              </Link>
-              <span className="opacity-75">•</span>
-              <Link href="/about" className="opacity-75 hover:opacity-100 transition-opacity">
-                About
-              </Link>
-              <span className="opacity-75">•</span>
-              <a href="#" className="opacity-75 hover:opacity-100 transition-opacity flex items-center gap-1">
+              <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+              <span>•</span>
+              <Link href="/about" className="hover:text-white transition-colors">About</Link>
+              <span>•</span>
+              <a href="#" className="flex items-center gap-1 hover:text-white transition-colors">
                 <Heart size={14} /> Support
               </a>
             </div>
