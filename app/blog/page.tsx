@@ -1,253 +1,267 @@
+'use client';
+
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { HeroSection } from '@/components/HeroSection';
-import Link from 'next/link';
-import { Calendar, User, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
+import { Calendar, User, ArrowRight, X, ArrowLeft } from 'lucide-react';
 
 const BLOG_POSTS = [
   {
     id: 1,
-    title: 'Understanding Your Welfare Rights: A Complete Guide',
-    excerpt: 'Learn about the rights and protections available to you under Nigerian law, including access to services, safety, and legal support.',
-    date: 'March 15, 2024',
-    author: 'HRVC Team',
-    category: 'Rights',
-    readTime: 8,
-    featured: true,
+    title: 'Outstanding entrepreneurs and develop your skills.',
+    excerpt: 'When to Use Lorem Ipsum generally, lorem ipsum is best suited to keeping template for looking bare or minimizing the distractions of the draft copy. Second, use lorem ipsum if you think placeholder text will be distracting.',
+    fullContent: 'Full article content goes here. This is the complete detailed version of the blog post. You can add as much text as needed including paragraphs, lists, quotes, etc. HRVC is committed to empowering corps members with accurate information about their rights.',
+    date: 'May 12, 2025',
+    author: 'Admin',
+    category: 'Donation',
+    image: '/image.png',
   },
   {
     id: 2,
-    title: 'How to Report a Violation Safely and Effectively',
-    excerpt: 'Step-by-step guide on documenting violations, protecting your identity, and submitting reports through the right channels.',
-    date: 'March 10, 2024',
-    author: 'Legal Advisor',
-    category: 'Reporting',
-    readTime: 6,
-    featured: true,
+    title: 'Money markets rates finding the best account',
+    excerpt: 'When to Use Lorem Ipsum generally, lorem ipsum is best suited to keeping template for looking bare or minimizing the distractions of the draft copy...',
+    fullContent: 'Detailed full content for the second post. This section expands when you click Read More. Include important information about financial rights, market updates, or any relevant topic for HRVC audience.',
+    date: 'May 12, 2025',
+    author: 'Admin',
+    category: 'Donation',
+    image: '/test-pics.png',
   },
   {
     id: 3,
-    title: 'Stories of Change: How People Are Fighting Back',
-    excerpt: 'Real stories from people who faced violations, reported them, and successfully sought justice. Names changed to protect privacy.',
-    date: 'March 5, 2024',
-    author: 'Anonymous',
-    category: 'Stories',
-    readTime: 10,
-    featured: true,
-  },
-  {
-    id: 4,
-    title: 'Election Duties: Know Your Rights and Responsibilities',
-    excerpt: 'A comprehensive guide to your duties, rights, and protections while serving as an election officer.',
-    date: 'February 28, 2024',
+    title: 'There are many various passages of',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    fullContent: 'This is the complete article content. Expand this area with real blog content about human rights, stories of change, or practical guides for NYSC corps members.',
+    date: 'May 12, 2025',
     author: 'HRVC Team',
-    category: 'Rights',
-    readTime: 7,
-  },
-  {
-    id: 5,
-    title: 'Mental Health During Service: Resources and Support',
-    excerpt: 'Managing stress, anxiety, and emotional challenges during service year. Available counseling services and self-care strategies.',
-    date: 'February 20, 2024',
-    author: 'Counselor',
-    category: 'Wellness',
-    readTime: 6,
-  },
-  {
-    id: 6,
-    title: 'Camp Orientation: What to Expect and How to Navigate It',
-    excerpt: 'Preparing for orientation camp. Learn about camp life, what to bring, rules, and how to handle common challenges.',
-    date: 'February 15, 2024',
-    author: 'HRVC Team',
-    category: 'Guide',
-    readTime: 5,
+    category: 'Charity',
+    image: '/ceo.png',
   },
 ];
 
+const CATEGORIES = [
+  { name: 'Charity', count: 8 },
+  { name: 'Crowdfunding', count: 11 },
+  { name: 'Industries', count: 18 },
+  { name: 'Innovations', count: 11 },
+  { name: 'Technology', count: 7 },
+];
+
+const TAGS = ['Crowdfunding', 'Innovations', 'Justice', 'Lead', 'Startup', 'Technology', 'Market', 'Court'];
+
 export default function Blog() {
-  const featuredPosts = BLOG_POSTS.filter((post) => post.featured);
-  const regularPosts = BLOG_POSTS.filter((post) => !post.featured);
+  const [expandedPost, setExpandedPost] = useState<number | null>(null);
+  const [modalPost, setModalPost] = useState<any>(null);
+
+  const toggleExpand = (id: number) => {
+    setExpandedPost(expandedPost === id ? null : id);
+  };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
-      <main className="flex-1">
-        <HeroSection
-          title="Blog & Stories"
-          description="Resources, guides, and stories from the HRVC community to help you understand your rights and stay informed."
-          primaryCta={{ label: 'Explore the latest', href: '#latest' }}
-        />
-
-        <section className="py-6 md:py-10">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p className="text-base text-foreground/70">
-              Read reliable guidance on rights, reporting, and wellbeing from corps members, legal advisors, and our community.
-            </p>
+      {/* Hero */}
+      <div className="relative bg-[#0f172a] text-white py-20">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold">Blog Standard</h1>
+          <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-5 py-1.5 rounded-full text-sm">
+            Home <span className="text-orange-400">»</span> Blog Standard
           </div>
-        </section>
+        </div>
+      </div>
 
-        {featuredPosts.length > 0 && (
-          <section className="py-16 md:py-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-                Featured Stories
-              </h2>
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid lg:grid-cols-12 gap-10">
+          {/* Sidebar */}
+          <div className="lg:col-span-4 space-y-8">
+            {/* Search */}
+            <div className="bg-gray-50 rounded-3xl p-6">
+              <h3 className="font-semibold mb-4">Search</h3>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search Here"
+                  className="w-full bg-white border border-gray-200 rounded-2xl py-3 px-5 pr-12 focus:outline-none focus:border-orange-400"
+                />
+                <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-orange-500 text-white p-3 rounded-2xl">
+                  <ArrowRight size={20} />
+                </button>
+              </div>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {featuredPosts.map((post) => (
-                  <Link key={post.id} href={`/blog/${post.id}`}>
-                    <div className="bg-card border border-border rounded-[1.75rem] overflow-hidden hover:border-accent hover:shadow-2xl transition-all h-full flex flex-col">
-                      <div className="h-52 bg-linear-to-br from-accent/10 to-secondary/5 flex items-center justify-center">
-                        <div className="text-6xl opacity-25">📖</div>
-                      </div>
-
-                      <div className="p-6 flex flex-col flex-1">
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className="text-xs font-semibold text-accent bg-accent/10 px-3 py-1 rounded-full">
-                            {post.category}
-                          </span>
-                        </div>
-
-                        <h3 className="text-2xl font-bold text-foreground mb-3 line-clamp-2">
-                          {post.title}
-                        </h3>
-
-                        <p className="text-foreground/65 text-sm mb-4 flex-1 line-clamp-3">
-                          {post.excerpt}
-                        </p>
-
-                        <div className="space-y-3 border-t border-border pt-4 mt-auto">
-                          <div className="flex items-center justify-between text-xs text-foreground/60">
-                            <div className="flex items-center gap-4">
-                              <span className="flex items-center gap-1">
-                                <Calendar size={14} />
-                                {post.date}
-                              </span>
-                              <span>{post.readTime} min read</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center text-accent font-semibold text-sm">
-                            Read More <ArrowRight size={16} className="ml-2" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
+            {/* Categories */}
+            <div className="bg-gray-50 rounded-3xl p-6">
+              <h3 className="font-semibold mb-4">Categories</h3>
+              <div className="space-y-2">
+                {CATEGORIES.map((cat) => (
+                  <div
+                    key={cat.name}
+                    className="flex justify-between items-center bg-white rounded-2xl px-5 py-3 text-sm hover:bg-orange-50 cursor-pointer transition-colors"
+                  >
+                    <span>{cat.name}</span>
+                    <span className="text-gray-400">({cat.count})</span>
+                  </div>
                 ))}
               </div>
             </div>
-          </section>
-        )}
 
-        <section id="latest" className="py-16 md:py-20 bg-muted/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-              Latest Articles
-            </h2>
+            {/* Recent Posts */}
+            <div className="bg-gray-50 rounded-3xl p-6">
+              <h3 className="font-semibold mb-4">Recent Posts</h3>
+              <div className="space-y-5">
+                {BLOG_POSTS.map((post) => (
+                  <div key={post.id} className="flex gap-3 cursor-pointer" onClick={() => setModalPost(post)}>
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0">
+                      <Image src={post.image} alt={post.title} width={64} height={64} className="object-cover" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium line-clamp-2 hover:text-orange-600 transition-colors">
+                        {post.title}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">{post.date}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-            <div className="grid gap-6 lg:grid-cols-2">
-              {regularPosts.map((post) => (
-                <Link key={post.id} href={`/blog/${post.id}`}>
-                  <div className="bg-card border border-border rounded-3xl p-6 hover:border-accent hover:shadow-lg transition-all group">
-                    <div className="flex flex-col gap-5">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold text-accent bg-accent/10 px-3 py-1 rounded-full">
-                          {post.category}
+            {/* Tag Cloud */}
+            <div className="bg-gray-50 rounded-3xl p-6">
+              <h3 className="font-semibold mb-4">Tag Cloud</h3>
+              <div className="flex flex-wrap gap-2">
+                {TAGS.map((tag) => (
+                  <span
+                    key={tag}
+                    className="bg-white text-sm px-4 py-2 rounded-2xl border border-gray-200 hover:border-orange-400 hover:text-orange-600 transition-colors cursor-pointer"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Main Content - Smaller stylish cards */}
+          <div className="lg:col-span-8 space-y-10">
+            {BLOG_POSTS.map((post) => {
+              const isExpanded = expandedPost === post.id;
+              return (
+                <div key={post.id} className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all">
+                  <div className="flex flex-col md:flex-row">
+                    {/* Small stylish image */}
+                    <div className="md:w-48 h-48 md:h-auto flex-shrink-0 relative">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute top-4 left-4 bg-white/90 text-xs font-medium px-3 py-1 rounded-full">
+                        {post.category}
+                      </div>
+                    </div>
+
+                    {/* Content Area */}
+                    <div className="flex-1 p-7">
+                      <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
+                        <span className="flex items-center gap-1">
+                          <User size={15} /> {post.author}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Calendar size={15} /> {post.date}
                         </span>
                       </div>
 
-                      <div>
-                        <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
-                          {post.title}
-                        </h3>
-                        <p className="text-foreground/65 leading-7">
-                          {post.excerpt}
-                        </p>
-                      </div>
+                      <h3 className="text-2xl font-bold leading-tight mb-4">{post.title}</h3>
 
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/60">
-                        <div className="flex items-center gap-1">
-                          <Calendar size={16} />
-                          {post.date}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <User size={16} />
-                          {post.author}
-                        </div>
-                        <div>{post.readTime} min read</div>
-                      </div>
+                      <p className={`text-gray-600 leading-relaxed ${isExpanded ? '' : 'line-clamp-3'}`}>
+                        {isExpanded ? post.fullContent : post.excerpt}
+                      </p>
 
-                      <div className="flex items-center gap-2 text-accent font-semibold">
-                        Read <ArrowRight size={18} />
+                      <div className="mt-6 flex items-center gap-4">
+                        <button
+                          onClick={() => toggleExpand(post.id)}
+                          className="inline-flex items-center gap-2 text-orange-600 font-medium hover:text-orange-700 transition-colors"
+                        >
+                          {isExpanded ? 'Show Less' : 'Read More'}
+                          <ArrowRight size={18} className={isExpanded ? 'rotate-180' : ''} />
+                        </button>
+
+                        <button
+                          onClick={() => setModalPost(post)}
+                          className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                          Full Article →
+                        </button>
                       </div>
                     </div>
                   </div>
-                </Link>
+                </div>
+              );
+            })}
+
+            {/* Pagination */}
+            <div className="flex justify-center gap-3 mt-12">
+              {[1, 2, 3].map((num) => (
+                <button
+                  key={num}
+                  className={`w-10 h-10 flex items-center justify-center rounded-2xl text-sm font-medium transition-colors ${
+                    num === 1 ? 'bg-orange-500 text-white' : 'border border-gray-200 hover:border-orange-400'
+                  }`}
+                >
+                  {num}
+                </button>
               ))}
+              <button className="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-2xl hover:border-orange-400 transition-colors">
+                →
+              </button>
             </div>
           </div>
-        </section>
+        </div>
+      </div>
 
-        <section className="py-16 md:py-20 bg-muted/50">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="rounded-[2rem] border border-border/70 bg-card p-10 shadow-2xl">
-              <div className="text-center">
-                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-accent/80 mb-3">
-                  Stay connected
-                </p>
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  Never miss a new guide or story.
-                </h2>
-                <p className="text-foreground/70 leading-8 max-w-2xl mx-auto">
-                  Join our newsletter for practical rights guidance, safety tips, and inspiring stories tailored to people who care about justice.
-                </p>
+      {/* Full Article Modal */}
+      {modalPost && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+          <div className="bg-white max-w-3xl w-full rounded-3xl max-h-[90vh] overflow-hidden flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b px-8 py-5">
+              <button
+                onClick={() => setModalPost(null)}
+                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                <ArrowLeft size={20} />
+                <span className="font-medium">Back</span>
+              </button>
+              <button
+                onClick={() => setModalPost(null)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="overflow-y-auto p-8 flex-1">
+              <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden mb-8">
+                <Image src={modalPost.image} alt={modalPost.title} fill className="object-cover" />
               </div>
 
-              <form className="mt-10 flex flex-col gap-3 sm:flex-row">
-                <label className="sr-only" htmlFor="blog-email">
-                  Email address
-                </label>
-                <input
-                  id="blog-email"
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 min-w-0 rounded-2xl border border-border bg-background px-5 py-4 text-foreground placeholder:text-foreground/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
-                />
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center rounded-2xl bg-accent px-6 py-4 text-sm font-semibold text-accent-foreground transition hover:bg-accent/90"
-                >
-                  Subscribe
-                </button>
-              </form>
+              <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
+                <span>{modalPost.author}</span>
+                <span>•</span>
+                <span>{modalPost.date}</span>
+              </div>
 
-              <p className="mt-5 text-sm text-foreground/60 text-center">
-                We respect your privacy and only send updates that help you stay safe, informed, and supported.
-              </p>
+              <h2 className="text-3xl font-bold mb-6">{modalPost.title}</h2>
+              <div className="prose text-gray-700 leading-relaxed">
+                {modalPost.fullContent}
+              </div>
             </div>
           </div>
-        </section>
-
-        <section className="py-16 md:py-20">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
-              Browse by Category
-            </h2>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {['Rights', 'Stories', 'Reporting', 'Guide', 'Wellness', 'News'].map((category) => (
-                <button
-                  key={category}
-                  className="px-6 py-3 bg-card border border-border rounded-2xl text-foreground hover:border-accent hover:bg-muted/30 transition-colors font-medium"
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
+        </div>
+      )}
 
       <Footer />
     </div>

@@ -1,225 +1,215 @@
+'use client';
+
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { HeroSection } from '@/components/HeroSection';
-import { Mail, Phone, MapPin, MessageCircle, Clock } from 'lucide-react';
+import { useState } from 'react';
+import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    setTimeout(() => {
+      alert("Thank you! Your message has been received. We'll get back to you soon.");
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setIsSubmitting(false);
+    }, 1200);
+  };
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
-      <main className="flex-1">
-        <HeroSection
-          title="Contact Us"
-          description="The Human Rights Volunteer Corps (HRVC) is a movement in Nigeria dedicated to creating a new Human Rights culture, anchored on the rule of law, and driven by the supremacy of the people. For more information or to get involved, contact HRVC at 0807 883 6002 or visit our office in Enugu."
-        />
+      {/* Hero */}
+      <div className="relative bg-[#0f172a] text-white py-24">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold">Contact Us</h1>
+          <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
+            Home <span className="text-orange-400">»</span> Contact Us
+          </div>
+        </div>
+      </div>
 
-        {/* Contact Methods */}
-        <section className="py-16 md:py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {/* Email */}
-              <div className="bg-card border border-border rounded-lg p-8 text-center hover:border-accent hover:shadow-lg transition-all">
-                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Mail size={24} className="text-accent" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">Email</h3>
-                <p className="text-foreground/60 mb-4">Send us your questions or concerns</p>
-                <a
-                  href="mailto:info@hrvc.org"
-                  className="text-accent font-semibold hover:underline"
-                >
-                  info@hrvc.org
-                </a>
+      <div className="max-w-7xl mx-auto px-6 py-16 w-full">
+        {/* Contact Info Cards - Wider */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-10">Get In Touch With Us</h2>
+          
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {/* Phone */}
+            <div className="bg-gray-50 rounded-3xl p-10 text-center hover:shadow-lg transition-all">
+              <div className="mx-auto w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6">
+                <Phone className="w-8 h-8 text-white" />
               </div>
-
-              {/* Phone */}
-              <div className="bg-card border border-border rounded-lg p-8 text-center hover:border-accent hover:shadow-lg transition-all">
-                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Phone size={24} className="text-accent" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">Phone</h3>
-                <p className="text-foreground/60 mb-4">Call us during business hours or for urgent support.</p>
-                <a
-                  href="tel:+2348078836002"
-                  className="text-accent font-semibold hover:underline"
-                >
-                  +234 807 883 6002
-                </a>
-              </div>
-
-              {/* WhatsApp */}
-              <div className="bg-card border border-border rounded-lg p-8 text-center hover:border-accent hover:shadow-lg transition-all">
-                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <MessageCircle size={24} className="text-accent" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">WhatsApp</h3>
-                <p className="text-foreground/60 mb-4">Quick messaging for urgent matters</p>
-                <a
-                  href="https://wa.me/2348078836002"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-accent font-semibold hover:underline"
-                >
-                  Message Us
-                </a>
-              </div>
+              <h3 className="font-semibold text-xl mb-2">Phone Number</h3>
+              <p className="text-2xl font-medium text-gray-800">+234 813 456 7890</p>
+              <p className="text-sm text-orange-600 mt-3">Emergency Support: 24/7</p>
             </div>
 
-            {/* Office Info */}
-            <div className="bg-muted/30 rounded-lg p-8 mb-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <MapPin size={24} className="text-accent" />
-                    <h3 className="text-lg font-semibold text-foreground">Office Location</h3>
-                  </div>
-                  <p className="text-foreground/60">
-                    12, Connor Street<br />
-                    Asata, Enugu<br />
-                    Nigeria
-                  </p>
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <Clock size={24} className="text-accent" />
-                    <h3 className="text-lg font-semibold text-foreground">Working Hours</h3>
-                  </div>
-                  <p className="text-foreground/60">
-                    Monday - Friday: 9:00 AM - 6:00 PM<br />
-                    Saturday: 10:00 AM - 4:00 PM<br />
-                    Sunday & Holidays: Closed<br />
-                    <strong>Emergency Support: 24/7</strong>
-                  </p>
-                </div>
+            {/* Email */}
+            <div className="bg-gray-50 rounded-3xl p-10 text-center hover:shadow-lg transition-all">
+              <div className="mx-auto w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6">
+                <Mail className="w-8 h-8 text-white" />
               </div>
+              <h3 className="font-semibold text-xl mb-2">Email Address</h3>
+              <p className="text-2xl font-medium text-gray-800">info@hrvc.ng</p>
+              <p className="text-sm text-gray-500 mt-3">We reply within 24 hours</p>
+            </div>
+
+            {/* Office Address */}
+            <div className="bg-gray-50 rounded-3xl p-10 text-center hover:shadow-lg transition-all">
+              <div className="mx-auto w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6">
+                <MapPin className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-xl mb-2">Office Address</h3>
+              <p className="text-gray-700 leading-relaxed text-lg">
+                12, Connor Street<br />
+                Asata, Enugu<br />
+                Nigeria
+              </p>
             </div>
           </div>
-        </section>
 
-        {/* Contact Form */}
-        <section className="py-16 md:py-20 bg-muted/30">
-          <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
-              Send us a Message
-            </h2>
+          {/* Working Hours - Wider */}
+          <div className="max-w-lg mx-auto bg-gray-50 rounded-3xl p-10 text-center">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <Clock className="w-7 h-7 text-orange-500" />
+              <h3 className="font-semibold text-xl">Working Hours</h3>
+            </div>
+            <div className="space-y-4 text-base">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Monday - Friday</span>
+                <span className="font-medium">9:00 AM - 6:00 PM</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Saturday</span>
+                <span className="font-medium">10:00 AM - 4:00 PM</span>
+              </div>
+              <div className="flex justify-between text-gray-500">
+                <span>Sunday &amp; Public Holidays</span>
+                <span>Closed</span>
+              </div>
+            </div>
+            <div className="mt-8 pt-8 border-t border-gray-200">
+              <p className="text-orange-600 font-semibold text-lg">24/7 Emergency Human Rights Support Available</p>
+            </div>
+          </div>
+        </div>
 
-            <form className="bg-card border border-border rounded-lg p-8 space-y-6">
+        {/* Full-Width Large Map */}
+        <div className="mb-20">
+          <h3 className="font-semibold text-2xl mb-6 flex items-center gap-3">
+            <MapPin className="text-orange-500" /> Our Location in Enugu
+          </h3>
+          <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-md h-[520px] w-full">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.8!2d7.4965!3d6.452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a5f5f5f5f5f5%3A0xabcdef1234567890!2sEnugu%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1700000000000"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+          <p className="text-center text-gray-600 mt-4 font-medium">
+            12, Connor Street, Asata, Enugu, Nigeria
+          </p>
+        </div>
+
+        {/* Contact Form - Wider & Centered */}
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 text-orange-500 text-sm font-medium mb-3">
+              ❤️ We’re Here To Help
+            </div>
+            <h2 className="text-4xl font-bold">Feel Free To Write Us Anytime</h2>
+            <p className="text-gray-600 mt-4 max-w-md mx-auto">
+              Whether you need support with human rights issues, want to report a violation, or have any questions — we’re ready to listen.
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="bg-white border border-gray-100 rounded-3xl p-12 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2">
-                  Full Name
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
                 <input
                   type="text"
-                  id="name"
-                  placeholder="Your name"
-                  className="w-full px-4 py-3 border border-border rounded-lg bg-background text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
+                  placeholder="John Doe"
                 />
               </div>
-
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-foreground mb-2">
-                  Email Address
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                 <input
                   type="email"
-                  id="email"
-                  placeholder="your@email.com"
-                  className="w-full px-4 py-3 border border-border rounded-lg bg-background text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
+                  placeholder="you@example.com"
                 />
               </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-semibold text-foreground mb-2">
-                  Subject
-                </label>
-                <select
-                  id="subject"
-                  className="w-full px-4 py-3 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                >
-                  <option value="">Select a subject</option>
-                  <option value="inquiry">General Inquiry</option>
-                  <option value="volunteer">Volunteer Opportunity</option>
-                  <option value="partnership">Partnership Inquiry</option>
-                  <option value="feedback">Feedback</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-foreground mb-2">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  placeholder="Your message here..."
-                  rows={6}
-                  className="w-full px-4 py-3 border border-border rounded-lg bg-background text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full px-6 py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-colors"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="py-16 md:py-20">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-foreground mb-12 text-center">
-              Frequently Asked Questions
-            </h2>
-
-            <div className="space-y-4">
-              <details className="bg-card border border-border rounded-lg p-6 group cursor-pointer">
-                <summary className="font-semibold text-foreground flex justify-between items-center">
-                  How long does it take to get a response?
-                  <span className="group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="text-foreground/60 mt-4">
-                  We aim to respond to all inquiries within 24-48 hours during business days. For urgent matters, please call our hotline directly.
-                </p>
-              </details>
-
-              <details className="bg-card border border-border rounded-lg p-6 group cursor-pointer">
-                <summary className="font-semibold text-foreground flex justify-between items-center">
-                  Can I visit your office?
-                  <span className="group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="text-foreground/60 mt-4">
-                  Yes, we welcome visitors during our working hours. Please call ahead to schedule an appointment to ensure someone is available to assist you.
-                </p>
-              </details>
-
-              <details className="bg-card border border-border rounded-lg p-6 group cursor-pointer">
-                <summary className="font-semibold text-foreground flex justify-between items-center">
-                  What languages do you support?
-                  <span className="group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="text-foreground/60 mt-4">
-                  We primarily communicate in English. However, our team can assist with major Nigerian languages. Please mention your preferred language when contacting us.
-                </p>
-              </details>
-
-              <details className="bg-card border border-border rounded-lg p-6 group cursor-pointer">
-                <summary className="font-semibold text-foreground flex justify-between items-center">
-                  Is my contact information confidential?
-                  <span className="group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="text-foreground/60 mt-4">
-                  Yes, all personal information is handled confidentially and in accordance with our privacy policy. We will never share your information without consent.
-                </p>
-              </details>
             </div>
-          </div>
-        </section>
-      </main>
+
+            <div className="mb-8">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+              <input
+                type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                required
+                className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
+                placeholder="How can we assist you?"
+              />
+            </div>
+
+            <div className="mb-10">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                rows={8}
+                className="w-full border border-gray-200 rounded-3xl px-6 py-5 focus:outline-none focus:border-orange-500 resize-y text-base"
+                placeholder="Tell us more about your situation or how we can help..."
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold py-5 rounded-3xl flex items-center justify-center gap-3 text-lg transition-all active:scale-[0.985]"
+            >
+              {isSubmitting ? 'Sending Message...' : (
+                <>
+                  Send Message <Send className="w-6 h-6" />
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+      </div>
 
       <Footer />
     </div>

@@ -1,318 +1,277 @@
+'use client';
+
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { HeroSection } from '@/components/HeroSection';
-import { ResourceCard } from '@/components/ResourceCard';
-import { Phone, FileText, Users, Briefcase, Heart, MapPin } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
+import { ShoppingCart, Star, Plus, Minus, X, Send } from 'lucide-react';
 
-const RESOURCES = [
+const PRODUCTS = [
   {
-    title: 'NYSC Regulations & Guidelines',
-    description: 'Complete guide to NYSC rules, regulations, and your obligations as a corps member.',
-    href: '#',
-    icon: <FileText size={32} />,
+    id: 1,
+    name: "Rights Defender T-Shirt",
+    price: 8500,
+    rating: 5,
+    image: "https://picsum.photos/id/1015/600/600",
+    category: "T-Shirts",
+    sale: true,
   },
   {
-    title: 'Legal Aid Services',
-    description: 'Connect with free legal assistance providers for help with violations.',
-    href: '#',
-    icon: <Briefcase size={32} />,
+    id: 2,
+    name: "Justice Now Cap",
+    price: 4500,
+    rating: 5,
+    image: "https://picsum.photos/id/201/600/600",
+    category: "Caps",
   },
   {
-    title: 'Mental Health Support',
-    description: 'Access counseling and mental health resources for corps members.',
-    href: '#',
-    icon: <Heart size={32} />,
+    id: 3,
+    name: "Stand Up Hoodie",
+    price: 12500,
+    rating: 4,
+    image: "https://picsum.photos/id/1005/600/600",
+    category: "Hoodies",
+    sale: true,
   },
   {
-    title: 'Local Government Offices',
-    description: 'Find NYSC offices in your state for in-person assistance and inquiries.',
-    href: '#',
-    icon: <MapPin size={32} />,
+    id: 4,
+    name: "Human Rights Tote Bag",
+    price: 6500,
+    rating: 5,
+    image: "https://picsum.photos/id/160/600/600",
+    category: "Accessories",
   },
   {
-    title: 'Rights Workshops',
-    description: 'Attend free webinars and workshops to learn about your rights.',
-    href: '#',
-    icon: <Users size={32} />,
+    id: 5,
+    name: "Speak Up Mug",
+    price: 3200,
+    rating: 5,
+    image: "https://picsum.photos/id/251/600/600",
+    category: "Accessories",
   },
   {
-    title: 'Emergency Contacts',
-    description: 'Quick reference guide for emergency numbers and support lines.',
-    href: '#',
-    icon: <Phone size={32} />,
+    id: 6,
+    name: "Equality Sticker Pack",
+    price: 1800,
+    rating: 5,
+    image: "https://picsum.photos/id/1009/600/600",
+    category: "Accessories",
   },
 ];
 
-const EMERGENCY_CONTACTS = [
-  {
-    name: 'Police (Emergency)',
-    number: '191',
-    available: '24/7',
-  },
-  {
-    name: 'Ambulance Service',
-    number: '112',
-    available: '24/7',
-  },
-  {
-    name: 'NYSC Headquarters',
-    number: '+234 (9) 2619 4000',
-    available: 'Business Hours',
-  },
-  {
-    name: 'HRVC Support Line',
-    number: '+234 (123) 456-7890',
-    available: '24/7',
-  },
-];
+export default function Shop() {
+  const [cart, setCart] = useState<any[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("All");
 
-const DOWNLOADABLE_RESOURCES = [
-  {
-    title: 'Corps Member Rights Charter',
-    description: 'A comprehensive guide to your fundamental rights during service',
-    fileName: 'rights-charter.pdf',
-  },
-  {
-    title: 'Reporting Procedures Guide',
-    description: 'Step-by-step instructions on how to report violations safely',
-    fileName: 'reporting-guide.pdf',
-  },
-  {
-    title: 'NYSC Act & Regulations',
-    description: 'Official document outlining the legal framework for service',
-    fileName: 'nysc-act.pdf',
-  },
-  {
-    title: 'Welfare Rights Checklist',
-    description: 'Quick reference checklist for your welfare entitlements',
-    fileName: 'welfare-checklist.pdf',
-  },
-  {
-    title: 'Safety Protocols',
-    description: 'Guidelines for staying safe during your service year',
-    fileName: 'safety-protocols.pdf',
-  },
-  {
-    title: 'Complaint Documentation Template',
-    description: 'Template for documenting incidents for your records',
-    fileName: 'incident-template.docx',
-  },
-];
+  const addToCart = (product: any) => {
+    setCart([...cart, { ...product, quantity: 1 }]);
+  };
 
-export default function Resources() {
+  const removeFromCart = (id: number) => {
+    setCart(cart.filter((item) => item.id !== id));
+  };
+
+  const updateQuantity = (id: number, change: number) => {
+    setCart(cart.map(item => 
+      item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item
+    ));
+  };
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const filteredProducts = activeCategory === "All" 
+    ? PRODUCTS 
+    : PRODUCTS.filter(p => p.category === activeCategory);
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
-      <main className="flex-1">
-        {/* Hero */}
-        <HeroSection
-          title="Resources & Support"
-          description="Everything you need to understand your rights, stay safe, and get help."
-        />
-
-        {/* Main Resources */}
-        <section className="py-16 md:py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Key Resources
-              </h2>
-              <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-                Access essential information and support tools to help you navigate your service.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {RESOURCES.map((resource) => (
-                <ResourceCard key={resource.title} {...resource} />
-              ))}
-            </div>
+      {/* Hero - Same style as other pages */}
+      <div className="relative bg-[#0f172a] text-white py-24">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold">Shop</h1>
+          <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
+            Home <span className="text-orange-400">»</span> Shop
           </div>
-        </section>
+          <p className="mt-6 max-w-md mx-auto text-lg opacity-90">
+            Wear your values. Every purchase supports human rights advocacy and legal aid in Nigeria.
+          </p>
+        </div>
+      </div>
 
-        {/* Emergency Contacts */}
-        <section className="py-16 md:py-20 bg-muted/30">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
-              Emergency Contacts
-            </h2>
+      {/* Category Tabs */}
+      <div className="border-b bg-white sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex overflow-x-auto gap-10 py-6 text-sm font-medium">
+            {["All", "T-Shirts", "Caps", "Hoodies", "Accessories"].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`pb-1 transition-all border-b-2 whitespace-nowrap ${
+                  activeCategory === cat 
+                    ? "border-orange-500 text-orange-600" 
+                    : "border-transparent text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {EMERGENCY_CONTACTS.map((contact) => (
-                <div
-                  key={contact.name}
-                  className="bg-card border border-border rounded-lg p-6"
-                >
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
-                    {contact.name}
-                  </h3>
-                  <div className="space-y-2">
-                    <p className="text-2xl font-bold text-accent">
-                      {contact.number}
-                    </p>
-                    <p className="text-sm text-foreground/60">
-                      Available: {contact.available}
-                    </p>
-                  </div>
+      {/* Products Grid */}
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="group bg-white border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all cursor-pointer"
+              onClick={() => setSelectedProduct(product)}
+            >
+              <div className="relative">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={400}
+                  height={400}
+                  className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                
+                {/* Price Badge */}
+                <div className="absolute top-4 right-4 bg-white shadow-md px-4 py-1.5 rounded-2xl font-semibold text-orange-600">
+                  ₦{product.price.toLocaleString()}
                 </div>
-              ))}
-            </div>
 
-            <div className="mt-8 bg-primary text-primary-foreground rounded-lg p-6 text-center">
-              <p className="text-lg">
-                <strong>In Crisis?</strong> Call emergency services (191) or nearest hospital immediately.
-              </p>
-            </div>
-          </div>
-        </section>
+                {product.sale && (
+                  <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-4 py-1 rounded-2xl">SALE</div>
+                )}
+              </div>
 
-        {/* Downloadable Resources */}
-        <section className="py-16 md:py-20">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
-              Downloadable Resources
-            </h2>
+              <div className="p-6">
+                <h3 className="font-semibold text-lg leading-tight mb-3 line-clamp-2">{product.name}</h3>
+                
+                <div className="flex items-center gap-1 text-orange-400 mb-5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} fill={i < product.rating ? "currentColor" : "none"} />
+                  ))}
+                </div>
 
-            <div className="space-y-4">
-              {DOWNLOADABLE_RESOURCES.map((resource) => (
-                <a
-                  key={resource.fileName}
-                  href={`/resources/${resource.fileName}`}
-                  className="flex items-start justify-between p-6 bg-card border border-border rounded-lg hover:border-accent hover:bg-muted/30 transition-colors"
+                {/* Add to Cart Button - Nicely placed below */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(product);
+                  }}
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-2xl font-medium transition-all active:scale-95"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <FileText size={24} className="text-accent" />
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Product Quick View Modal */}
+      {selectedProduct && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full overflow-hidden">
+            <div className="p-8">
+              <Image
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                width={500}
+                height={500}
+                className="rounded-2xl w-full"
+              />
+              <h2 className="text-3xl font-bold mt-6 mb-2">{selectedProduct.name}</h2>
+              <p className="text-4xl font-bold text-orange-600">₦{selectedProduct.price.toLocaleString()}</p>
+              
+              <p className="mt-6 text-gray-600">
+                Premium quality custom apparel. 100% of profits support HRVC’s mission to protect human rights and provide legal aid across Nigeria.
+              </p>
+
+              <div className="flex gap-4 mt-8">
+                <button
+                  onClick={() => addToCart(selectedProduct)}
+                  className="flex-1 bg-orange-500 text-white py-4 rounded-2xl font-semibold hover:bg-orange-600 transition-all"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  onClick={() => setSelectedProduct(null)}
+                  className="flex-1 border border-gray-300 py-4 rounded-2xl font-medium"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Cart Button */}
+      <button
+        onClick={() => setCartOpen(true)}
+        className="fixed bottom-8 right-8 bg-orange-500 text-white w-16 h-16 rounded-3xl shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50"
+      >
+        <ShoppingCart size={28} />
+        {cart.length > 0 && (
+          <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-7 h-7 rounded-2xl flex items-center justify-center">
+            {cart.length}
+          </div>
+        )}
+      </button>
+
+      {/* Cart Drawer */}
+      {cartOpen && (
+        <div className="fixed inset-0 bg-black/60 z-[60] flex justify-end">
+          <div className="bg-white w-full max-w-md h-full flex flex-col shadow-2xl">
+            <div className="p-6 border-b flex justify-between">
+              <h2 className="text-2xl font-bold">Your Cart</h2>
+              <button onClick={() => setCartOpen(false)}><X size={28} /></button>
+            </div>
+
+            <div className="flex-1 p-6 overflow-auto space-y-6">
+              {cart.length === 0 ? (
+                <p className="text-center text-gray-500 py-12">Your cart is empty</p>
+              ) : (
+                cart.map((item) => (
+                  <div key={item.id} className="flex gap-4">
+                    <Image src={item.image} alt="" width={80} height={80} className="rounded-2xl" />
+                    <div className="flex-1">
+                      <p className="font-medium">{item.name}</p>
+                      <p className="text-orange-600">₦{item.price}</p>
+                      <div className="flex items-center gap-3 mt-2">
+                        <button onClick={() => updateQuantity(item.id, -1)} className="w-8 h-8 border rounded-xl">-</button>
+                        <span>{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.id, 1)} className="w-8 h-8 border rounded-xl">+</button>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground text-lg">
-                        {resource.title}
-                      </h3>
-                      <p className="text-foreground/60 text-sm mt-1">
-                        {resource.description}
-                      </p>
-                    </div>
+                    <button onClick={() => removeFromCart(item.id)} className="text-red-500 text-sm">Remove</button>
                   </div>
-                  <div className="text-accent font-semibold whitespace-nowrap ml-4">
-                    Download →
-                  </div>
-                </a>
-              ))}
+                ))
+              )}
             </div>
+
+            {cart.length > 0 && (
+              <div className="p-6 border-t">
+                <div className="flex justify-between text-xl font-bold mb-6">
+                  <span>Total</span>
+                  <span>₦{total.toLocaleString()}</span>
+                </div>
+                <button className="w-full bg-orange-500 text-white py-4 rounded-3xl font-semibold text-lg">
+                  Proceed to Checkout
+                </button>
+              </div>
+            )}
           </div>
-        </section>
-
-        {/* Partner Organizations */}
-        <section className="py-16 md:py-20 bg-muted/30">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
-              Partner Organizations
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-card border border-border rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-3">
-                  Legal Aid Foundation
-                </h3>
-                <p className="text-foreground/60 mb-4">
-                  Provides free legal assistance and representation for corps members facing violations.
-                </p>
-                <a href="#" className="text-accent font-semibold hover:underline">
-                  Visit Website →
-                </a>
-              </div>
-
-              <div className="bg-card border border-border rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-3">
-                  Human Rights Monitor NG
-                </h3>
-                <p className="text-foreground/60 mb-4">
-                  Independent human rights organization documenting and tracking violations across the country.
-                </p>
-                <a href="#" className="text-accent font-semibold hover:underline">
-                  Visit Website →
-                </a>
-              </div>
-
-              <div className="bg-card border border-border rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-3">
-                  Youth Empowerment Network
-                </h3>
-                <p className="text-foreground/60 mb-4">
-                  Supports youth development and provides training programs for corps members.
-                </p>
-                <a href="#" className="text-accent font-semibold hover:underline">
-                  Visit Website →
-                </a>
-              </div>
-
-              <div className="bg-card border border-border rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-3">
-                  Digital Rights Africa
-                </h3>
-                <p className="text-foreground/60 mb-4">
-                  Protects digital rights and online safety for young people in Africa.
-                </p>
-                <a href="#" className="text-accent font-semibold hover:underline">
-                  Visit Website →
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="py-16 md:py-20">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
-              Frequently Asked Questions
-            </h2>
-
-            <div className="space-y-4">
-              <details className="bg-card border border-border rounded-lg p-6 group cursor-pointer">
-                <summary className="font-semibold text-foreground flex justify-between items-center">
-                  Where can I find my state's NYSC office?
-                  <span className="group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="text-foreground/60 mt-4">
-                  You can find contact information for your state office in our "Local Government Offices" resource or visit the official NYSC website at www.nysc.gov.ng.
-                </p>
-              </details>
-
-              <details className="bg-card border border-border rounded-lg p-6 group cursor-pointer">
-                <summary className="font-semibold text-foreground flex justify-between items-center">
-                  Are these resources free to access?
-                  <span className="group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="text-foreground/60 mt-4">
-                  Yes, all resources provided by HRVC are completely free. Our downloadable guides and information are available to all corps members at no cost.
-                </p>
-              </details>
-
-              <details className="bg-card border border-border rounded-lg p-6 group cursor-pointer">
-                <summary className="font-semibold text-foreground flex justify-between items-center">
-                  How do I access legal aid services?
-                  <span className="group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="text-foreground/60 mt-4">
-                  Contact the Legal Aid Foundation directly using the contact information provided in our resources section. HRVC can also help connect you with appropriate legal support.
-                </p>
-              </details>
-
-              <details className="bg-card border border-border rounded-lg p-6 group cursor-pointer">
-                <summary className="font-semibold text-foreground flex justify-between items-center">
-                  Can I get mental health support during service?
-                  <span className="group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="text-foreground/60 mt-4">
-                  Yes. NYSC camps have medical officers, and many postings have access to counselors. You can also access private counseling services or contact mental health organizations listed in our resources.
-                </p>
-              </details>
-            </div>
-          </div>
-        </section>
-      </main>
+        </div>
+      )}
 
       <Footer />
     </div>

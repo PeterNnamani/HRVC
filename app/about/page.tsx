@@ -1,128 +1,207 @@
+'use client';
+
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+const tabs = [
+  { id: 'mission', label: 'Our Mission' },
+  { id: 'vision', label: 'Our Vision' },
+  { id: 'history', label: 'Our History' },
+];
+
+const testimonials = [
+  {
+    quote: "Climb it see the world, not so the world can see you. This is due to their excellent service...",
+    author: "Esther Howard",
+    role: "Web Designer",
+    avatar: "/test-pics.png",
+  },
+  {
+    quote: "HRVC gave me hope when I felt completely alone. Their support team responded within hours.",
+    author: "Chinasa Okafor",
+    role: "Corps Member",
+    avatar: "/image.png",
+  },
+  {
+    quote: "The resources and community here helped me understand my rights and stand up confidently.",
+    author: "Emeka Nwosu",
+    role: "Volunteer",
+    avatar: "/ceo.png",
+  },
+];
 
 export default function About() {
+  const [activeTab, setActiveTab] = useState('mission');
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  // Auto-slide testimonials
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const renderTabContent = () => {
+    if (activeTab === 'mission') {
+      return (
+        <>
+          <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
+          <p className="text-lg text-gray-700 leading-relaxed">
+            To empower, inform, and protect NYSC corps members by creating accessible resources, trusted advocacy, and a welcoming community of allies.
+          </p>
+        </>
+      );
+    }
+    if (activeTab === 'vision') {
+      return (
+        <>
+          <h2 className="text-3xl font-bold mb-6">Our Vision</h2>
+          <p className="text-lg text-gray-700 leading-relaxed">
+            A Nigeria where every corps member understands their rights, feels supported, and can demand fair treatment without fear.
+          </p>
+        </>
+      );
+    }
+    return (
+      <>
+        <h2 className="text-3xl font-bold mb-6">Our History</h2>
+        <p className="text-gray-700 leading-relaxed">
+          Integer lobortis, velit quis facilisis pellentesque... (your full history text here)
+        </p>
+      </>
+    );
+  };
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
-      <main className="flex-1 w-full bg-muted/30 flex flex-col items-center justify-center py-12 px-4">
-        <section className="w-full max-w-6xl grid gap-16 lg:grid-cols-[1.15fr_0.85fr] items-center mb-20">
-          <div className="space-y-8">
-            <div className="inline-flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-foreground/80 shadow-sm ring-1 ring-gray-200">
-              Vision & Purpose
-            </div>
-            <div className="space-y-6">
-              <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-gray-900">
-                Building a future where rights are known, supported, and defended.
-              </h1>
-              <p className="text-lg leading-8 text-gray-700 max-w-2xl">
-                The Human Rights Volunteer Corps (HRVC) is a movement in Nigeria dedicated to creating a new Human Rights culture, anchored on the rule of law, and driven by the supremacy of the people. Our mission is to mobilize, inspire, and equip individuals and institutions to respect everyone's rights, everywhere and every time.
-              </p>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl border border-border bg-white/90 p-6 shadow-sm">
-                <h2 className="text-xl font-semibold text-gray-900 mb-3">Our Vision</h2>
-                <p className="text-gray-600 leading-7">
-                  A world where every corps member understands their rights, feels supported, and can demand fair treatment without fear.
-                </p>
+
+      {/* Hero Header */}
+      <div className="bg-[#0f172a] text-white py-20">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold">About Us</h1>
+        </div>
+      </div>
+
+      {/* Main About Section */}
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          {/* Heart Image */}
+          <div className="lg:col-span-5 relative">
+            <div className="relative aspect-square max-w-[520px] mx-auto">
+              <div className="absolute inset-0 bg-orange-500 rounded-[4rem] rotate-12 scale-95" />
+              <div className="absolute inset-4 bg-white rounded-[3rem] overflow-hidden shadow-2xl">
+                <Image src="/ceo.png" alt="Helping Hands" fill className="object-cover" />
               </div>
-              <div className="rounded-3xl border border-border bg-white/90 p-6 shadow-sm">
-                <h2 className="text-xl font-semibold text-gray-900 mb-3">Our Purpose</h2>
-                <p className="text-gray-600 leading-7">
-                  To empower, inform, and protect people across Nigeria by creating accessible resources, trusted advocacy, and a welcoming community of allies.
-                </p>
+              <div className="absolute -top-4 -right-4 bg-orange-500 text-white text-center px-8 py-3 rounded-3xl shadow-xl flex flex-col items-center">
+                <span className="text-4xl font-bold">15+</span>
+                <span className="text-sm tracking-widest">Years Of Experience</span>
               </div>
             </div>
           </div>
 
-          <div className="relative isolate overflow-visible rounded-[3rem] bg-slate-950/5 p-8 shadow-[0_40px_80px_-40px_rgba(15,23,42,0.35)]">
-            <div className="absolute -left-10 top-10 h-44 w-44 rounded-[42%_58%_57%_43%] bg-sky-300/20 blur-3xl" />
-            <div className="absolute right-0 bottom-4 h-72 w-72 rounded-[48%_52%_56%_44%] bg-emerald-300/20 blur-3xl" />
-            <div className="relative overflow-visible rounded-[2.5rem] border border-white/20 bg-white/95 shadow-2xl">
-              <img
-                src="/test-pics.png"
-                alt="HRVC vision image"
-                className="relative -top-8 h-130 w-full rounded-[2.25rem] object-cover shadow-[0_24px_64px_-24px_rgba(15,23,42,0.25)]"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="w-full max-w-6xl grid gap-8 lg:grid-cols-2 mb-20">
-          <div className="rounded-4xl border border-border bg-white/90 p-8 shadow-sm">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why We Exist</h2>
-            <p className="text-gray-700 leading-8 mb-6">
-              HRVC is involved in activities that promote human rights and support people who have been wronged. We offer assistance for all cases of human rights abuse and are committed to creating an enabling environment for national transformation.
-            </p>
-            <ul className="space-y-4 text-gray-700">
-              <li className="flex gap-3">
-                <span className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-sky-100 text-sky-700 font-semibold">01</span>
-                <span className="leading-7">Raise awareness about NYSC corps member rights and protections.</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-sky-100 text-sky-700 font-semibold">02</span>
-                <span className="leading-7">Provide clear, practical advice for navigating real challenges.</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-sky-100 text-sky-700 font-semibold">03</span>
-                <span className="leading-7">Build a trusted community where every voice is heard and valued.</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="rounded-4xl border border-border bg-white/90 p-8 shadow-sm">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">How We Make Impact</h2>
-            <p className="text-gray-700 leading-8 mb-6">
-              Our work combines education, advocacy, and partnerships so corps members feel equipped, connected, and confident when facing rights-related issues.
-            </p>
-            <div className="space-y-4">
-              <div className="rounded-3xl bg-slate-50 p-5">
-                <strong className="block text-sm font-semibold text-slate-900">Trusted resources</strong>
-                <span className="text-sm text-slate-600">Clear guides, rights summaries, and next-step recommendations for every situation.</span>
-              </div>
-              <div className="rounded-3xl bg-slate-50 p-5">
-                <strong className="block text-sm font-semibold text-slate-900">Community support</strong>
-                <span className="text-sm text-slate-600">A welcoming space to share experiences and learn from others who care.</span>
-              </div>
-              <div className="rounded-3xl bg-slate-50 p-5">
-                <strong className="block text-sm font-semibold text-slate-900">Partner network</strong>
-                <span className="text-sm text-slate-600">Strong collaborations with legal and human rights groups to amplify every voice.</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-20 w-full">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-foreground mb-12 text-center">
-              Our Partners
+          {/* Content */}
+          <div className="lg:col-span-7 space-y-8">
+            <div className="flex items-center gap-2 text-orange-500 text-sm font-semibold">❤️ ABOUT US</div>
+            <h2 className="text-4xl md:text-5xl font-bold leading-none">
+              Helping Each Other can Make World Better
             </h2>
-            <p className="text-center text-foreground/60 mb-12 max-w-2xl mx-auto">
-              We work alongside legal organizations, human rights groups, and international partners to amplify our impact and provide comprehensive support.
+            <p className="text-lg text-gray-700 max-w-lg">
+              Dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur. Nonprofits around the world apply and join us to access more funding.
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {[
-                'Legal Aid Foundation',
-                'Human Rights Monitor NG',
-                'Youth Empowerment Network',
-                'Justice & Equality Initiative',
-                'Community Support Alliance',
-                'Digital Rights Africa',
-              ].map((partner) => (
-                <div
-                  key={partner}
-                  className="bg-card border border-border rounded-lg p-4 text-center text-foreground/70"
-                >
-                  {partner}
+
+            <div className="flex items-center gap-6">
+              <button className="px-10 py-4 bg-orange-500 text-white font-semibold rounded-3xl hover:bg-orange-600 transition-all active:scale-95 flex items-center gap-3">
+                Explore More <span className="text-xl">→</span>
+              </button>
+              <div className="flex items-center gap-3 text-sm">
+                <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-2xl">📞</div>
+                <div>
+                  <p className="font-medium">Call Any Time</p>
+                  <p className="text-gray-600">+234 813 456 7890</p>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
+
+      {/* Mission / Vision / History Tabs */}
+      <div className="bg-[#0f172a] text-white py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-center mb-4">Charitics Information of Event Schedule</h2>
+
+          <div className="flex justify-center border-b border-white/20 mb-12">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-10 py-5 text-lg font-medium transition-all border-b-2 ${
+                  activeTab === tab.id ? 'border-orange-500 text-white' : 'border-transparent text-white/70 hover:text-white'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="max-w-5xl mx-auto bg-white text-black rounded-3xl p-10 shadow-2xl">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="rounded-2xl overflow-hidden">
+                <Image
+                  src={activeTab === 'mission' ? '/test-pics.png' : activeTab === 'vision' ? '/ceo.png' : '/image.png'}
+                  alt={activeTab}
+                  width={600}
+                  height={500}
+                  className="w-full object-cover"
+                />
+              </div>
+              <div className="space-y-6">{renderTabContent()}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Testimonials Carousel */}
+      <div className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <p className="text-orange-500 text-sm font-semibold">❤️ TESTIMONIALS</p>
+            <h2 className="text-4xl font-bold">What People Say About us</h2>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
+              <div className="flex text-orange-400 mb-6 text-2xl">★★★★☆</div>
+              <p className="text-xl leading-relaxed text-gray-700 italic">
+                {testimonials[currentTestimonial].quote}
+              </p>
+              <div className="mt-8 flex items-center gap-4">
+                <Image src={testimonials[currentTestimonial].avatar} width={48} height={48} alt="" className="rounded-full" />
+                <div>
+                  <p className="font-semibold">{testimonials[currentTestimonial].author}</p>
+                  <p className="text-sm text-gray-500">{testimonials[currentTestimonial].role}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-center gap-6 mt-8">
+              <button onClick={() => setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length)} className="w-12 h-12 flex items-center justify-center border border-gray-200 hover:border-orange-300 rounded-2xl transition-colors">
+                <ChevronLeft size={24} />
+              </button>
+              <button onClick={() => setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)} className="w-12 h-12 flex items-center justify-center border border-gray-200 hover:border-orange-300 rounded-2xl transition-colors">
+                <ChevronRight size={24} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
 }
-
-

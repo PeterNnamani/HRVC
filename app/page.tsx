@@ -1,295 +1,280 @@
+'use client';
+
 import Image from 'next/image';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { HeroSection } from '@/components/HeroSection';
-import { StatsCard } from '@/components/StatsCard';
-import { TestimonialCard } from '@/components/TestimonialCard';
-import { ResourceCard } from '@/components/ResourceCard';
-import { Shield, MessageSquare, Users, BookOpen, HeartHandshake, Globe2 } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { useRef, useEffect, useState } from 'react';
+import { Shield, Users, BookOpen, HeartHandshake, Globe2 } from 'lucide-react';
 
-const teamMembers = [
-  {
-    name: 'Chinasa Okafor',
-    title: 'Legal Outreach Lead',
-    image: '/placeholder-user.jpg',
-  },
-  {
-    name: 'Amina Bello',
-    title: 'Community Liaison',
-    image: '/image.png',
-  },
-  {
-    name: 'Emeka Nwosu',
-    title: 'Volunteer Coordinator',
-    image: '/test-pics.png',
-  },
-];
+const AnimatedCounter = ({ end, suffix = '' }: { end: number; suffix?: string }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
 
-const galleryImages = ['/placeholder.jpg', '/placeholder-user.jpg', '/image.png', '/test-pics.png'];
+  useEffect(() => {
+    if (!inView) return;
+
+    let start = 0;
+    const duration = 2000;
+    const increment = end / (duration / 16);
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+
+    return () => clearInterval(timer);
+  }, [inView, end]);
+
+  return <span ref={ref} className="text-5xl font-bold">{count}{suffix}</span>;
+};
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
-      <main className="flex-1">
-        <HeroSection
-          title="For The People & Cause You Care About"
-          description="It is a long established fact that a reader will be distracted by the readable content of a page when looking at layout. HRVC supports survivors and mobilizes volunteers to protect rights across Nigeria."
-          primaryCta={{ label: 'Report a Violation', href: '/report' }}
-          secondaryCta={{ label: 'Learn Your Rights', href: '/know-your-rights' }}
-          imageUrl="/emmanuel.jpg"
-        />
-
-        <section className="pt-0 pb-16 md:pb-20 bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.15),transparent_45%)]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] items-center">
-              <div className="space-y-6">
-                <p className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.3em] text-accent font-semibold">
-                  About Us
-                </p>
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                  Helping Each Other can Make World Better
-                </h2>
-                <p className="max-w-2xl text-base md:text-lg leading-8 text-foreground/75">
-                  Dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
-                  sed quia consequuntur. Nonprofits around the world apply and join us to access more funding.
-                </p>
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-3xl border border-border bg-background/90 p-6 shadow-sm">
-                    <div className="flex items-center gap-3 mb-4 text-accent">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-orange-100 text-orange-600">
-                        ♥
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold">Start Helping Team</p>
-                        <p className="text-xs text-foreground/70">There are many variations of solve</p>
-                      </div>
-                    </div>
-                    <div className="flex -space-x-3">
-                      <div className="h-10 w-10 rounded-full border-2 border-background bg-slate-900" />
-                      <div className="h-10 w-10 rounded-full border-2 border-background bg-slate-800" />
-                      <div className="h-10 w-10 rounded-full border-2 border-background bg-slate-700" />
-                      <div className="h-10 w-10 rounded-full border-2 border-background bg-slate-600" />
-                    </div>
-                  </div>
-
-                  <div className="rounded-3xl border border-border bg-card p-6 shadow-xl">
-                    <p className="text-sm uppercase tracking-[0.3em] text-accent mb-3">Call Any Time</p>
-                    <p className="text-2xl font-semibold text-foreground">+61 2345 678 990</p>
-                    <p className="mt-3 text-sm text-foreground/70">
-                      Our team is ready to support you whenever you need guidance or assistance.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mx-auto max-w-lg">
-                <div className="relative h-96 w-96 overflow-hidden rounded-3xl border border-border bg-card shadow-2xl shadow-slate-900/10 octagon-mask mx-auto">
-                  <Image
-                    src="/ceo.png"
-                    alt="CEO"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-20 bg-muted/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-10">
-              <p className="uppercase tracking-[0.3em] text-sm font-semibold text-accent mb-4">
-                Empowerment in action
-              </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Support people by raising awareness
-              </h2>
-              <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-                HRVC connects victims, volunteers, and legal support to defend rights and transform communities.
-              </p>
+      {/* HERO SECTION */}
+      <section className="relative bg-[#0f172a] text-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 pt-16 pb-20 grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            <div className="inline-flex items-center gap-2 text-orange-400 text-sm font-semibold tracking-widest">
+              ❤️ HUMAN RIGHTS DEFENSE
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr] items-center">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="rounded-3xl border border-border bg-background/90 p-8 shadow-sm">
-                  <p className="text-sm uppercase tracking-[0.3em] text-accent mb-3">Active response</p>
-                  <h3 className="text-2xl font-semibold text-foreground mb-3">1,280 cases handled</h3>
-                  <p className="text-sm text-foreground/70">Every report is tracked, investigated, and referred to the right support network.</p>
-                </div>
-                <div className="rounded-3xl border border-border bg-background/90 p-8 shadow-sm">
-                  <p className="text-sm uppercase tracking-[0.3em] text-accent mb-3">Volunteer reach</p>
-                  <h3 className="text-2xl font-semibold text-foreground mb-3">3,100 active volunteers</h3>
-                  <p className="text-sm text-foreground/70">A growing community of trained activists and rights monitors across the country.</p>
-                </div>
-              </div>
+            <h1 className="text-5xl lg:text-6xl font-bold leading-none">
+              For The People &amp;<br />
+              Cause You Care About
+            </h1>
 
-              <div className="rounded-3xl border border-border bg-card p-8 shadow-xl">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.3em] text-accent">Campaign progress</p>
-                    <h3 className="text-2xl font-semibold text-foreground">Goal: 5,000 reports</h3>
-                  </div>
-                  <span className="text-xs uppercase text-foreground/70">68% complete</span>
-                </div>
-                <div className="h-3 w-full rounded-full bg-muted border border-border overflow-hidden mb-4">
-                  <div className="h-full w-[68%] rounded-full bg-accent" />
-                </div>
-                <p className="text-sm text-foreground/70">We are building a safer environment by making it easier for survivors to speak out and get help.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <p className="uppercase tracking-[0.3em] text-sm font-semibold text-accent mb-4">
-                Why join HRVC
-              </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Why we need you to become a volunteer
-              </h2>
-              <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-                Volunteers help bridge the gap between communities and legal support, creating safer spaces and better outcomes for survivors.
-              </p>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-3">
-              <ResourceCard
-                title="Community Support"
-                description="Provide direct assistance to survivors and strengthen local networks."
-                href="/get-involved"
-                icon={<HeartHandshake size={32} />}
-              />
-              <ResourceCard
-                title="Rights Education"
-                description="Help people understand their rights and how to respond to violations."
-                href="/know-your-rights"
-                icon={<Globe2 size={32} />}
-              />
-              <ResourceCard
-                title="Safe Reporting"
-                description="Keep reporting confidential and guide people through next steps."
-                href="/report"
-                icon={<Shield size={32} />}
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-20 bg-muted/20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <p className="uppercase tracking-[0.3em] text-sm font-semibold text-accent mb-4">
-                Our team</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Skilled human rights professionals dedicated to you
-              </h2>
-              <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-                A diverse team of lawyers, organizers and volunteers working together to protect human dignity.
-              </p>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-3">
-              {teamMembers.map((member) => (
-                <div key={member.name} className="rounded-3xl border border-border bg-background p-6 text-center shadow-sm">
-                  <div className="mx-auto mb-6 h-40 w-40 overflow-hidden rounded-full border border-border bg-muted">
-                    <Image
-                      src={member.image}
-                      width={160}
-                      height={160}
-                      alt={member.name}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground mb-2">{member.name}</h3>
-                  <p className="text-sm text-foreground/70">{member.title}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <p className="uppercase tracking-[0.3em] text-sm font-semibold text-accent mb-4">
-                Testimonials</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                What they are talking about HRVC
-              </h2>
-              <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-                Stories from survivors and volunteers who found strength through our movement.
-              </p>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-3">
-              <TestimonialCard
-                quote="HRVC helped me speak up and get support when no one else would listen."
-                author="Esther Howard"
-                role="Volunteer"
-              />
-              <TestimonialCard
-                quote="The awareness campaigns helped my community understand their rights and feel safer."
-                author="John Doe"
-                role="Community Leader"
-              />
-              <TestimonialCard
-                quote="Knowing there is a team behind me made all the difference in reporting my case."
-                author="Grace Nwankwo"
-                role="Rights Advocate"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-20 bg-muted/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <p className="uppercase tracking-[0.3em] text-sm font-semibold text-accent mb-4">
-                Gallery</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Change the world together
-              </h2>
-              <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-                Moments from our programs, trainings, and volunteer actions across Nigeria.
-              </p>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {galleryImages.map((src, index) => (
-                <div key={index} className="overflow-hidden rounded-3xl border border-border bg-background shadow-sm">
-                  <Image src={src} alt={`Gallery ${index + 1}`} width={400} height={300} className="h-64 w-full object-cover transition-transform duration-300 hover:scale-105" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-20 bg-accent text-accent-foreground">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p className="uppercase tracking-[0.3em] text-sm font-semibold mb-4">Take action</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Join HRVC and protect rights everywhere
-            </h2>
-            <p className="text-lg opacity-95 max-w-2xl mx-auto mb-8">
-              Be part of the movement that defends dignity, educates communities, and helps victims find justice.
+            <p className="text-lg text-white/80 max-w-md">
+              We defend human rights, support victims of abuse, and mobilize volunteers to protect dignity and justice across Nigeria.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a href="/get-involved" className="inline-flex items-center justify-center rounded-full bg-background px-8 py-3 text-sm font-semibold text-foreground shadow-lg hover:shadow-xl transition">
-                Join as a Volunteer
-              </a>
-              <a href="/report" className="inline-flex items-center justify-center rounded-full border border-background bg-transparent px-8 py-3 text-sm font-semibold text-background hover:bg-background/10 transition">
-                Report Now
-              </a>
+
+            <div className="flex items-center gap-4">
+              <button className="px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-3xl flex items-center gap-3 text-base transition-all active:scale-95">
+                Make a Report
+                <span className="text-2xl leading-none">→</span>
+              </button>
+
+              <button className="px-8 py-4 border border-white/50 hover:bg-white/10 text-white font-semibold rounded-3xl transition-all">
+                Become a Volunteer
+              </button>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9 }}
+            className="relative"
+          >
+            <div className="absolute -right-6 -top-6 w-80 h-80 bg-gradient-to-br from-orange-400 to-transparent rounded-[4rem] rotate-12 z-10" />
+            <div className="relative z-20 rounded-3xl overflow-hidden shadow-2xl">
+              <Image
+                src="/emmanuel.jpg"
+                alt="HRVC Impact"
+                width={620}
+                height={680}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ABOUT US SECTION */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="lg:col-span-5 relative"
+            >
+              <div className="relative aspect-square max-w-[520px] mx-auto">
+                <div className="absolute inset-0 bg-orange-500 rounded-[4rem] rotate-12 scale-95" />
+                <div className="absolute inset-4 bg-white rounded-[3rem] overflow-hidden shadow-2xl">
+                  <Image src="/ceo.png" alt="Helping Hands" fill className="object-cover" />
+                </div>
+                <div className="absolute -top-4 -right-4 bg-orange-500 text-white text-center px-8 py-3 rounded-3xl shadow-xl flex flex-col items-center">
+                  <span className="text-4xl font-bold">15+</span>
+                  <span className="text-sm tracking-widest">Years Of Experience</span>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="lg:col-span-7 space-y-8"
+            >
+              <div className="flex items-center gap-2 text-orange-500 text-sm font-semibold">❤️ ABOUT US</div>
+              <h2 className="text-4xl font-bold leading-tight">
+                Helping Each Other Can Make The World Better
+              </h2>
+              <p className="text-lg text-gray-700 max-w-lg">
+                We defend human rights, provide legal support to victims of abuse, and empower communities to stand for justice across Nigeria.
+              </p>
+
+              <div className="flex items-center gap-8">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 flex items-center justify-center bg-orange-100 text-orange-600 rounded-2xl text-3xl">🤝</div>
+                  <div>
+                    <p className="font-semibold text-lg">Start Helping Team</p>
+                    <p className="text-sm text-gray-600">There are many variations of solve</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS & EVENTS SECTION */}
+      <section className="py-20 bg-[#0f172a] text-white">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Animated Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center"
+            >
+              <div className="mx-auto w-20 h-20 rounded-full border-4 border-orange-400 flex items-center justify-center text-4xl mb-4">🛡️</div>
+              <AnimatedCounter end={260} suffix="+" />
+              <div className="text-orange-300 text-sm tracking-widest mt-2">CASES SUPPORTED</div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-center"
+            >
+              <div className="mx-auto w-20 h-20 rounded-full border-4 border-orange-400 flex items-center justify-center text-4xl mb-4">👥</div>
+              <AnimatedCounter end={110} suffix="+" />
+              <div className="text-orange-300 text-sm tracking-widest mt-2">ACTIVE VOLUNTEERS</div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-center"
+            >
+              <div className="mx-auto w-20 h-20 rounded-full border-4 border-orange-400 flex items-center justify-center text-4xl mb-4">📍</div>
+              <AnimatedCounter end={190} suffix="+" />
+              <div className="text-orange-300 text-sm tracking-widest mt-2">COMMUNITIES REACHED</div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="text-center"
+            >
+              <div className="mx-auto w-20 h-20 rounded-full border-4 border-orange-400 flex items-center justify-center text-4xl mb-4">📚</div>
+              <AnimatedCounter end={560} suffix="+" />
+              <div className="text-orange-300 text-sm tracking-widest mt-2">RIGHTS AWARENESS SESSIONS</div>
+            </motion.div>
+          </div>
+
+          {/* Event Schedule */}
+          <div>
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-bold">Upcoming Events &amp; Activities</h2>
+              <button className="px-8 py-3 bg-orange-500 text-white font-medium rounded-3xl hover:bg-orange-600 transition-all">
+                Explore More
+              </button>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[1,2,3,4].map((i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-white/10 backdrop-blur-md rounded-3xl p-6 text-white"
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="text-center">
+                      <div className="text-orange-400 text-4xl font-bold">29</div>
+                      <div className="text-xs uppercase tracking-widest">July</div>
+                    </div>
+                    <div className="text-right">
+                      <span className="inline-block bg-white/20 text-white text-xs px-4 py-1 rounded-3xl">Event Details</span>
+                    </div>
+                  </div>
+                  <h3 className="font-semibold text-xl mb-2">Human Rights Awareness Workshop</h3>
+                  <p className="text-white/70 text-sm mb-6">Interactive session on rights protection and legal aid for NYSC corps members.</p>
+                  <div className="flex items-center gap-3 text-xs">
+                    <span className="bg-white/10 px-4 py-2 rounded-3xl">📍 Enugu Orientation Camp</span>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS SECTION */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <p className="text-orange-500 text-sm font-semibold tracking-widest">❤️ TESTIMONIALS</p>
+            <h2 className="text-4xl font-bold text-foreground">What People Are Saying About HRVC</h2>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6">
+            {[1,2,3,4].map((i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm"
+              >
+                <div className="flex text-orange-400 mb-6">★★★★☆</div>
+                <p className="text-foreground/80 text-base leading-relaxed">
+                  HRVC gave me the courage and support I needed when my rights were violated. Their team responded quickly and guided me through the process.
+                </p>
+                <div className="mt-8 flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gray-200 rounded-2xl"></div>
+                  <div>
+                    <p className="font-semibold">Esther Howard</p>
+                    <p className="text-xs text-foreground/60">Corps Member, Enugu</p>
+                  </div>
+                  <div className="ml-auto text-4xl text-orange-400">”</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>
