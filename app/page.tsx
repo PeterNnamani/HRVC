@@ -5,7 +5,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { motion, useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
-import { Shield, Users, BookOpen, HeartHandshake, Globe2 } from 'lucide-react';
+import { ShieldCheck, Users, MapPin, Award } from 'lucide-react';
 
 const AnimatedCounter = ({ end, suffix = '' }: { end: number; suffix?: string }) => {
   const [count, setCount] = useState(0);
@@ -36,11 +36,18 @@ const AnimatedCounter = ({ end, suffix = '' }: { end: number; suffix?: string })
 };
 
 export default function Home() {
+  const partners = [
+    { name: "Solid FM", logo: "/solidfm.png" },
+    { name: "Urban Radio", logo: "/urbanradio.png" },
+    { name: "Dream FM", logo: "/dreamfm.png" },
+    { name: "Blaze FM", logo: "/blazefm.png" },
+  ];
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
-      {/* HERO SECTION */}
+      {/* HERO SECTION - Unchanged */}
       <section className="relative bg-[#0f172a] text-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-20 grid lg:grid-cols-2 gap-12 items-center">
           <motion.div 
@@ -95,7 +102,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ABOUT US SECTION */}
+      {/* ABOUT US SECTION - Unchanged */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
@@ -147,20 +154,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* STATS & EVENTS SECTION */}
+      {/* IMPROVED STATS & EVENTS SECTION */}
       <section className="py-20 bg-[#0f172a] text-white">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Animated Stats */}
+          {/* Improved Stats Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-center"
+              className="group text-center"
             >
-              <div className="mx-auto w-20 h-20 rounded-full border-4 border-orange-400 flex items-center justify-center text-4xl mb-4">🛡️</div>
+              <div className="mx-auto w-24 h-24 rounded-3xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform duration-300">
+                <ShieldCheck size={48} className="text-white" strokeWidth={2.2} />
+              </div>
               <AnimatedCounter end={260} suffix="+" />
-              <div className="text-orange-300 text-sm tracking-widest mt-2">CASES SUPPORTED</div>
+              <div className="mt-3 text-orange-300 text-sm tracking-widest font-medium">CASES SUPPORTED</div>
             </motion.div>
 
             <motion.div 
@@ -168,11 +177,13 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-center"
+              className="group text-center"
             >
-              <div className="mx-auto w-20 h-20 rounded-full border-4 border-orange-400 flex items-center justify-center text-4xl mb-4">👥</div>
+              <div className="mx-auto w-24 h-24 rounded-3xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform duration-300">
+                <Users size={48} className="text-white" strokeWidth={2.2} />
+              </div>
               <AnimatedCounter end={110} suffix="+" />
-              <div className="text-orange-300 text-sm tracking-widest mt-2">ACTIVE VOLUNTEERS</div>
+              <div className="mt-3 text-orange-300 text-sm tracking-widest font-medium">ACTIVE VOLUNTEERS</div>
             </motion.div>
 
             <motion.div 
@@ -180,11 +191,13 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-center"
+              className="group text-center"
             >
-              <div className="mx-auto w-20 h-20 rounded-full border-4 border-orange-400 flex items-center justify-center text-4xl mb-4">📍</div>
+              <div className="mx-auto w-24 h-24 rounded-3xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform duration-300">
+                <MapPin size={48} className="text-white" strokeWidth={2.2} />
+              </div>
               <AnimatedCounter end={190} suffix="+" />
-              <div className="text-orange-300 text-sm tracking-widest mt-2">COMMUNITIES REACHED</div>
+              <div className="mt-3 text-orange-300 text-sm tracking-widest font-medium">COMMUNITIES REACHED</div>
             </motion.div>
 
             <motion.div 
@@ -192,15 +205,17 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="text-center"
+              className="group text-center"
             >
-              <div className="mx-auto w-20 h-20 rounded-full border-4 border-orange-400 flex items-center justify-center text-4xl mb-4">📚</div>
+              <div className="mx-auto w-24 h-24 rounded-3xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform duration-300">
+                <Award size={48} className="text-white" strokeWidth={2.2} />
+              </div>
               <AnimatedCounter end={560} suffix="+" />
-              <div className="text-orange-300 text-sm tracking-widest mt-2">RIGHTS AWARENESS SESSIONS</div>
+              <div className="mt-3 text-orange-300 text-sm tracking-widest font-medium">RIGHTS AWARENESS SESSIONS</div>
             </motion.div>
           </div>
 
-          {/* Event Schedule */}
+          {/* Event Schedule - Unchanged */}
           <div>
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-3xl font-bold">Upcoming Events &amp; Activities</h2>
@@ -240,12 +255,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TESTIMONIALS SECTION */}
+      {/* TESTIMONIALS SECTION - Unchanged */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <p className="text-orange-500 text-sm font-semibold tracking-widest">❤️ TESTIMONIALS</p>
-            <h2 className="text-4xl font-bold text-foreground">What People Are Saying About HRVC</h2>
+            <h2 className="text-4xl font-bold">What People Are Saying About HRVC</h2>
           </div>
 
           <div className="grid md:grid-cols-4 gap-6">
@@ -270,6 +285,35 @@ export default function Home() {
                   </div>
                   <div className="ml-auto text-4xl text-orange-400">”</div>
                 </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PARTNERS LOGO SECTION - Unchanged */}
+      <section className="py-16 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-center text-gray-500 text-sm tracking-widest mb-10">OUR MEDIA &amp; STRATEGIC PARTNERS</p>
+          
+          <div className="flex flex-wrap justify-center items-center gap-x-20 gap-y-12">
+            {partners.map((partner, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="flex items-center justify-center"
+              >
+                <Image 
+                  src={partner.logo} 
+                  alt={`${partner.name} logo`}
+                  width={220}
+                  height={90}
+                  className="h-16 w-auto object-contain transition-all duration-300 hover:scale-110" 
+                  priority
+                />
               </motion.div>
             ))}
           </div>

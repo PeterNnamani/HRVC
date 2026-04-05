@@ -22,8 +22,8 @@ export function Footer() {
             <h3 className="font-bold text-lg mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm text-slate-300">
               <li>
-                <Link href="/know-your-rights" className="hover:text-white transition-colors">
-                  Know Your Rights
+                <Link href="/about" className="hover:text-white transition-colors">
+                  About HRVC
                 </Link>
               </li>
               <li>
@@ -39,6 +39,16 @@ export function Footer() {
               <li>
                 <Link href="/get-involved" className="hover:text-white transition-colors">
                   Get Involved
+                </Link>
+              </li>
+              <li>
+                <Link href="/media-programs" className="hover:text-white transition-colors">
+                  Media Programs
+                </Link>
+              </li>
+              <li>
+                <Link href="/events" className="hover:text-white transition-colors">
+                 Events
                 </Link>
               </li>
             </ul>

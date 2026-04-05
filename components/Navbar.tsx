@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePathname } from 'next/navigation';
@@ -12,6 +12,8 @@ const NAV_ITEMS = [
   { label: 'About', href: '/about' },
   { label: 'Resources', href: '/resources' },
   { label: 'Contact', href: '/contact' },
+  { label: 'Media', href: '/media-programs' },
+  { label: 'Partners', href: '/partner' },     // ← Added here
 ];
 
 export function Navbar() {
@@ -90,7 +92,7 @@ export function Navbar() {
               <Search size={20} />
             </button>
 
-            {/* Make a Report Button - Text turns black on hover */}
+            {/* Make a Report Button */}
             <Button
               asChild
               variant="outline"
