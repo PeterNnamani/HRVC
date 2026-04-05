@@ -30,16 +30,22 @@ export default function Contact() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[whitesmoke]">
       <Navbar />
 
       {/* Hero */}
-      <div className="relative bg-[#0f172a] text-white py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold">Contact Us</h1>
-          <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
-            Home <span className="text-orange-400">»</span> Contact Us
+      <div className="relative bg-cover text-white py-24 h-[40vh]"
+        style={{ backgroundImage: "url('/ngo-boy.jpg')" }}>
+        {/* Overlay (middle layer) */}
+        <div className="absolute inset-0 bg-black/70 z-0">
+
+          <div className="max-w-7xl mx-auto px-6 text-center relative z-10 mt-18">
+            <h1 className="text-5xl md:text-6xl font-bold">Contact Us</h1>
+            <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
+              Home <span className="text-orange-400">»</span> Contact Us
+            </div>
           </div>
+
         </div>
       </div>
 
@@ -47,10 +53,10 @@ export default function Contact() {
         {/* Contact Info Cards - Wider */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-center mb-10">Get In Touch With Us</h2>
-          
+
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             {/* Phone */}
-            <div className="bg-gray-50 rounded-3xl p-10 text-center hover:shadow-lg transition-all">
+            <div className="bg-white rounded-3xl p-10 text-center hover:shadow-lg transition-all shadow-md">
               <div className="mx-auto w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6">
                 <Phone className="w-8 h-8 text-white" />
               </div>
@@ -60,7 +66,7 @@ export default function Contact() {
             </div>
 
             {/* Email */}
-            <div className="bg-gray-50 rounded-3xl p-10 text-center hover:shadow-lg transition-all">
+            <div className="bg-white rounded-3xl p-10 text-center hover:shadow-lg transition-all shadow-md">
               <div className="mx-auto w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6">
                 <Mail className="w-8 h-8 text-white" />
               </div>
@@ -70,7 +76,7 @@ export default function Contact() {
             </div>
 
             {/* Office Address */}
-            <div className="bg-gray-50 rounded-3xl p-10 text-center hover:shadow-lg transition-all">
+            <div className="bg-white rounded-3xl p-10 text-center hover:shadow-lg transition-all shadow-md">
               <div className="mx-auto w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6">
                 <MapPin className="w-8 h-8 text-white" />
               </div>
@@ -84,7 +90,7 @@ export default function Contact() {
           </div>
 
           {/* Working Hours - Wider */}
-          <div className="max-w-lg mx-auto bg-gray-50 rounded-3xl p-10 text-center">
+          <div className="max-w-lg mx-auto bg-white rounded-3xl p-10 text-center shadow-md">
             <div className="flex items-center justify-center gap-3 mb-6">
               <Clock className="w-7 h-7 text-orange-500" />
               <h3 className="font-semibold text-xl">Working Hours</h3>
@@ -131,83 +137,85 @@ export default function Contact() {
         </div>
 
         {/* Contact Form - Wider & Centered */}
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 text-orange-500 text-sm font-medium mb-3">
-              ❤️ We’re Here To Help
+        <div className="bg-white rounded-3xl p-10 text-center shadow-md">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 text-orange-500 text-sm font-medium mb-3">
+                ❤️ We’re Here To Help
+              </div>
+              <h2 className="text-4xl font-bold">Feel Free To Write Us Anytime</h2>
+              <p className="text-gray-600 mt-4 max-w-md mx-auto">
+                Whether you need support with human rights issues, want to report a violation, or have any questions — we’re ready to listen.
+              </p>
             </div>
-            <h2 className="text-4xl font-bold">Feel Free To Write Us Anytime</h2>
-            <p className="text-gray-600 mt-4 max-w-md mx-auto">
-              Whether you need support with human rights issues, want to report a violation, or have any questions — we’re ready to listen.
-            </p>
-          </div>
 
-          <form onSubmit={handleSubmit} className="bg-white border border-gray-100 rounded-3xl p-12 shadow-sm">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
+            <form onSubmit={handleSubmit} className="bg-white border border-gray-100 rounded-3xl p-12 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
+                    placeholder="John Doe"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
+                    placeholder="you@example.com"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="subject"
+                  value={formData.subject}
                   onChange={handleChange}
                   required
                   className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
-                  placeholder="John Doe"
+                  placeholder="How can we assist you?"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
+
+              <div className="mb-10">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+                <textarea
+                  name="message"
+                  value={formData.message}
                   onChange={handleChange}
                   required
-                  className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
-                  placeholder="you@example.com"
+                  rows={8}
+                  className="w-full border border-gray-200 rounded-3xl px-6 py-5 focus:outline-none focus:border-orange-500 resize-y text-base"
+                  placeholder="Tell us more about your situation or how we can help..."
                 />
               </div>
-            </div>
 
-            <div className="mb-8">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-              <input
-                type="text"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
-                placeholder="How can we assist you?"
-              />
-            </div>
-
-            <div className="mb-10">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={8}
-                className="w-full border border-gray-200 rounded-3xl px-6 py-5 focus:outline-none focus:border-orange-500 resize-y text-base"
-                placeholder="Tell us more about your situation or how we can help..."
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold py-5 rounded-3xl flex items-center justify-center gap-3 text-lg transition-all active:scale-[0.985]"
-            >
-              {isSubmitting ? 'Sending Message...' : (
-                <>
-                  Send Message <Send className="w-6 h-6" />
-                </>
-              )}
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold py-5 rounded-3xl flex items-center justify-center gap-3 text-lg transition-all active:scale-[0.985]"
+              >
+                {isSubmitting ? 'Sending Message...' : (
+                  <>
+                    Send Message <Send className="w-6 h-6" />
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
 
