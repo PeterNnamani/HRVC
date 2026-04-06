@@ -3,69 +3,47 @@
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import Image from 'next/image';
-import { useState } from 'react';
-import { ShoppingCart, Star, Plus, Minus, X, Send } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ShoppingCart, Star, X } from 'lucide-react';
 
-const PRODUCTS = [
-  {
-    id: 1,
-    name: "Rights Defender T-Shirt",
-    price: 8500,
-    rating: 5,
-    image: "https://picsum.photos/id/1015/600/600",
-    category: "T-Shirts",
-    sale: true,
-  },
-  {
-    id: 2,
-    name: "Justice Now Cap",
-    price: 4500,
-    rating: 5,
-    image: "https://picsum.photos/id/201/600/600",
-    category: "Caps",
-  },
-  {
-    id: 3,
-    name: "Stand Up Hoodie",
-    price: 12500,
-    rating: 4,
-    image: "https://picsum.photos/id/1005/600/600",
-    category: "Hoodies",
-    sale: true,
-  },
-  {
-    id: 4,
-    name: "Human Rights Tote Bag",
-    price: 6500,
-    rating: 5,
-    image: "https://picsum.photos/id/160/600/600",
-    category: "Accessories",
-  },
-  {
-    id: 5,
-    name: "Speak Up Mug",
-    price: 3200,
-    rating: 5,
-    image: "https://picsum.photos/id/251/600/600",
-    category: "Accessories",
-  },
-  {
-    id: 6,
-    name: "Equality Sticker Pack",
-    price: 1800,
-    rating: 5,
-    image: "https://picsum.photos/id/1009/600/600",
-    category: "Accessories",
-  },
-];
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  rating: number;
+  image: string;
+  category: string;
+  sale?: boolean;
+}
 
-export default function Shop() {
+export default function ResourcesPage() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<any[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [loading, setLoading] = useState(true);
 
-  const addToCart = (product: any) => {
+  // Fetch products from JSON file
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/data/products.json');
+        const data = await response.json();
+        setProducts(data.products);
+      } catch (error) {
+        console.error("Failed to load products:", error);
+        // Fallback in case JSON fails
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const addToCart = (product: Product) => {
     setCart([...cart, { ...product, quantity: 1 }]);
   };
 
@@ -81,20 +59,34 @@ export default function Shop() {
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  const categories = ["All", "T-Shirts", "Caps", "Hoodies", "Accessories"];
+
   const filteredProducts = activeCategory === "All" 
-    ? PRODUCTS 
-    : PRODUCTS.filter(p => p.category === activeCategory);
+    ? products 
+    : products.filter(p => p.category === activeCategory);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen bg-white">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-xl">Loading products...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
-      {/* Hero - Same style as other pages */}
+      {/* Hero */}
       <div className="relative bg-[#0f172a] text-white py-24">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h1 className="text-5xl md:text-6xl font-bold">Shop</h1>
           <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
-            Home <span className="text-orange-400">»</span> Shop
+            Home <span className="text-orange-400">»</span> Resources
           </div>
           <p className="mt-6 max-w-md mx-auto text-lg opacity-90">
             Wear your values. Every purchase supports human rights advocacy and legal aid in Nigeria.
@@ -106,7 +98,7 @@ export default function Shop() {
       <div className="border-b bg-white sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex overflow-x-auto gap-10 py-6 text-sm font-medium">
-            {["All", "T-Shirts", "Caps", "Hoodies", "Accessories"].map((cat) => (
+            {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
@@ -141,7 +133,6 @@ export default function Shop() {
                   className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 
-                {/* Price Badge */}
                 <div className="absolute top-4 right-4 bg-white shadow-md px-4 py-1.5 rounded-2xl font-semibold text-orange-600">
                   ₦{product.price.toLocaleString()}
                 </div>
@@ -160,7 +151,6 @@ export default function Shop() {
                   ))}
                 </div>
 
-                {/* Add to Cart Button - Nicely placed below */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -176,7 +166,7 @@ export default function Shop() {
         </div>
       </div>
 
-      {/* Product Quick View Modal */}
+      {/* Quick View Modal */}
       {selectedProduct && (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-lg w-full overflow-hidden">
@@ -231,9 +221,11 @@ export default function Shop() {
       {cartOpen && (
         <div className="fixed inset-0 bg-black/60 z-[60] flex justify-end">
           <div className="bg-white w-full max-w-md h-full flex flex-col shadow-2xl">
-            <div className="p-6 border-b flex justify-between">
+            <div className="p-6 border-b flex justify-between items-center">
               <h2 className="text-2xl font-bold">Your Cart</h2>
-              <button onClick={() => setCartOpen(false)}><X size={28} /></button>
+              <button onClick={() => setCartOpen(false)}>
+                <X size={28} />
+              </button>
             </div>
 
             <div className="flex-1 p-6 overflow-auto space-y-6">

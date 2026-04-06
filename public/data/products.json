@@ -1,0 +1,54 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Rights Defender T-Shirt",
+      "price": 8500,
+      "rating": 5,
+      "image": "https://picsum.photos/id/1015/600/600",
+      "category": "T-Shirts",
+      "sale": true
+    },
+    {
+      "id": 2,
+      "name": "Justice Now Cap",
+      "price": 4500,
+      "rating": 5,
+      "image": "https://picsum.photos/id/201/600/600",
+      "category": "Caps"
+    },
+    {
+      "id": 3,
+      "name": "Stand Up Hoodie",
+      "price": 12500,
+      "rating": 4,
+      "image": "https://picsum.photos/id/1005/600/600",
+      "category": "Hoodies",
+      "sale": true
+    },
+    {
+      "id": 4,
+      "name": "Human Rights Tote Bag",
+      "price": 6500,
+      "rating": 5,
+      "image": "https://picsum.photos/id/160/600/600",
+      "category": "Accessories"
+    },
+    {
+      "id": 5,
+      "name": "Speak Up Mug",
+      "price": 3200,
+      "rating": 5,
+      "image": "https://picsum.photos/id/251/600/600",
+      "category": "Accessories"
+    },
+    {
+      "id": 6,
+      "name": "Equality Sticker Pack",
+      "price": 1800,
+      "rating": 5,
+      "image": "https://picsum.photos/id/1009/600/600",
+      "category": "Accessories"
+    }
+  ]
+}
