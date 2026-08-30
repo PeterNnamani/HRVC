@@ -177,6 +177,26 @@ export default function Home() {
               </a>
             </div>
 
+            <div className="max-w-xl rounded-xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-orange-300">
+                    <Calendar className="size-3.5 shrink-0" aria-hidden />
+                    Next event
+                  </div>
+                  <h2 className="mt-1.5 text-base font-semibold text-white sm:text-lg">International Peace Summit</h2>
+                  <p className="mt-1 text-sm text-slate-400">17th–18th September 2026 · Abuja, Nigeria</p>
+                </div>
+                <Link
+                  href="/events"
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+                >
+                  Explore events
+                  <ArrowRight className="size-4" aria-hidden />
+                </Link>
+              </div>
+            </div>
+
             <p className="text-xs text-slate-500 max-w-md leading-relaxed">
               Confidential reporting via secure Google Forms. For emergencies, contact local authorities and
               seek immediate safety first.
