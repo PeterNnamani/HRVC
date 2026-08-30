@@ -2,46 +2,47 @@
 
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import { Reveal, RevealArticle } from '@/components/MotionScroll';
+import { useState, useEffect } from 'react';
+import { Phone, Mail, MapPin, Clock, Send, DoorOpen, DoorClosed } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
+
+function getOfficeStatus() {
+  const now = new Date();
+  const day = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  const hour = now.getHours();
+
+  const isWeekday = day >= 1 && day <= 5; // Monday to Friday
+  const isOfficeHours = hour >= 9 && hour < 17; // 9:00 AM to 5:00 PM
+
+  if (isWeekday && isOfficeHours) {
+    return 'Open';
+  }
+  return 'Closed';
+}
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [officeStatus, setOfficeStatus] = useState(getOfficeStatus());
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOfficeStatus(getOfficeStatus());
+    }, 60000); // Update every minute
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    setTimeout(() => {
-      alert("Thank you! Your message has been received. We'll get back to you soon.");
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setIsSubmitting(false);
-    }, 1200);
-  };
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-[whitesmoke]">
       <Navbar />
 
-      {/* Hero */}
-      <div className="relative bg-cover text-white py-24 h-[40vh]"
-        style={{ backgroundImage: "url('/ngo-boy.jpg')" }}>
-        {/* Overlay (middle layer) */}
+      {/* Header */}
+      <div className="relative bg-cover text-white py-8 h-[25vh]" style={{ backgroundImage: "url('/ngo-boy.jpg')" }}>
         <div className="absolute inset-0 bg-black/70 z-0">
 
-          <div className="max-w-7xl mx-auto px-6 text-center relative z-10 mt-18">
-            <h1 className="text-5xl md:text-6xl font-bold">Contact Us</h1>
-            <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
+          <div className="max-w-5xl mx-auto px-4 text-center relative z-10 mt-12">
+            <h1 className="text-3xl md:text-4xl font-bold">Contact Us</h1>
+            <div className="mt-2 inline-flex items-center gap-2 bg-white/10 px-4 py-1 rounded-full text-xs">
               Home <span className="text-orange-400">»</span> Contact Us
             </div>
           </div>
@@ -49,80 +50,89 @@ export default function Contact() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-16 w-full">
-        {/* Contact Info Cards - Wider */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-10">Get In Touch With Us</h2>
+      <div className="max-w-5xl mx-auto px-4 py-12 w-full">
+        {/* Contact Info Cards */}
+        <Reveal variant="up" className="mb-12">
+          <h2 className="text-2xl font-bold text-center mb-8">Get In Touch With Us</h2>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {/* Phone */}
-            <div className="bg-white rounded-3xl p-10 text-center hover:shadow-lg transition-all shadow-md">
-              <div className="mx-auto w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6">
-                <Phone className="w-8 h-8 text-white" />
+          <div className="grid md:grid-cols-2 gap-6 mb-10">
+            <RevealArticle variant="scale" delay={0} className="bg-white rounded-2xl p-6 text-center hover:shadow-md transition-all shadow-sm">
+              <div className="mx-auto w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center mb-4">
+                <Phone className="w-6 h-6 text-white" />
               </div>
-              <h3 className="font-semibold text-xl mb-2">Phone Number</h3>
-              <p className="text-2xl font-medium text-gray-800">+234 813 456 7890</p>
-              <p className="text-sm text-orange-600 mt-3">Emergency Support: 24/7</p>
-            </div>
-
-            {/* Email */}
-            <div className="bg-white rounded-3xl p-10 text-center hover:shadow-lg transition-all shadow-md">
-              <div className="mx-auto w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6">
-                <Mail className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-xl mb-2">Email Address</h3>
-              <p className="text-2xl font-medium text-gray-800">info@hrvc.ng</p>
-              <p className="text-sm text-gray-500 mt-3">We reply within 24 hours</p>
-            </div>
-
-            {/* Office Address */}
-            <div className="bg-white rounded-3xl p-10 text-center hover:shadow-lg transition-all shadow-md">
-              <div className="mx-auto w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-6">
-                <MapPin className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-xl mb-2">Office Address</h3>
-              <p className="text-gray-700 leading-relaxed text-lg">
-                12, Connor Street<br />
-                Asata, Enugu<br />
-                Nigeria
+              <h3 className="font-semibold text-lg mb-1">Phone Number</h3>
+              <p className="text-lg font-medium text-gray-800">
+                <a href="tel:+2348037056016" className="text-blue-600 hover:underline">
+                  +234 803 705 6016
+                </a>
               </p>
-            </div>
+              <p className="text-xs text-orange-600 mt-2">
+                <a href="https://wa.me/2348037056016" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:underline font-bold flex items-center gap-2 text-lg">
+                  <MessageCircle className="w-6 h-6" /> WhatsApp Us
+                </a>
+              </p>
+            </RevealArticle>
+
+            <RevealArticle variant="scale" delay={0.08} className="bg-white rounded-2xl p-6 text-center hover:shadow-md transition-all shadow-sm">
+              <div className="mx-auto w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center mb-4">
+                <Mail className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="font-semibold text-lg mb-1">Email Address</h3>
+              <p className="text-lg font-medium text-gray-800">info@hrvc.ng</p>
+              <p className="text-xs text-gray-500 mt-2">We reply within 24 hours</p>
+            </RevealArticle>
           </div>
 
-          {/* Working Hours - Wider */}
-          <div className="max-w-lg mx-auto bg-white rounded-3xl p-10 text-center shadow-md">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <Clock className="w-7 h-7 text-orange-500" />
-              <h3 className="font-semibold text-xl">Working Hours</h3>
-            </div>
-            <div className="space-y-4 text-base">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Monday - Friday</span>
-                <span className="font-medium">9:00 AM - 6:00 PM</span>
+          <div className="grid md:grid-cols-2 gap-6">
+            <RevealArticle variant="scale" delay={0.12} className="bg-white rounded-2xl p-6 text-center hover:shadow-md transition-all shadow-sm">
+              <div className="mx-auto w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center mb-4">
+                <MapPin className="w-6 h-6 text-white" />
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Saturday</span>
-                <span className="font-medium">10:00 AM - 4:00 PM</span>
-              </div>
-              <div className="flex justify-between text-gray-500">
-                <span>Sunday &amp; Public Holidays</span>
-                <span>Closed</span>
-              </div>
-            </div>
-            <div className="mt-8 pt-8 border-t border-gray-200">
-              <p className="text-orange-600 font-semibold text-lg">24/7 Emergency Human Rights Support Available</p>
-            </div>
-          </div>
-        </div>
+              <h3 className="font-semibold text-lg mb-1">Office Address</h3>
+              <p className="text-gray-700 leading-relaxed text-sm">
+                O'Connor Street, Asata, Enugu, Nigeria
+              </p>
+            </RevealArticle>
 
-        {/* Full-Width Large Map */}
-        <div className="mb-20">
-          <h3 className="font-semibold text-2xl mb-6 flex items-center gap-3">
+            <RevealArticle variant="scale" delay={0.16} className="bg-white rounded-2xl p-6 text-center hover:shadow-md transition-all shadow-sm">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Clock className="w-5 h-5 text-orange-500" />
+                <h3 className="font-semibold text-lg">Working Hours</h3>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Monday - Friday</span>
+                  <span className="font-medium">9:00 AM - 5:00 PM</span>
+                </div>
+                <div className="flex justify-between text-gray-500">
+                  <span>Saturday, Sunday &amp; Public Holidays</span>
+                  <span>Closed</span>
+                </div>
+              </div>
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <p className={`font-semibold text-sm flex items-center gap-2 ${officeStatus === 'Open' ? 'text-green-600' : 'text-red-600'}`}>
+                  {officeStatus === 'Open' ? (
+                    <>
+                      <DoorOpen className="w-5 h-5" /> Open
+                    </>
+                  ) : (
+                    <>
+                      <DoorClosed className="w-5 h-5" /> Closed
+                    </>
+                  )}
+                </p>
+              </div>
+            </RevealArticle>
+          </div>
+        </Reveal>
+
+        <Reveal variant="left" className="mb-16">
+          <h3 className="font-semibold text-xl mb-4 flex items-center gap-2">
             <MapPin className="text-orange-500" /> Our Location in Enugu
           </h3>
-          <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-md h-[520px] w-full">
+          <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm h-[320px] w-full">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.8!2d7.4965!3d6.452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a5f5f5f5f5f5%3A0xabcdef1234567890!2sEnugu%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1700000000000"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.8!2d7.4965!3d6.452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a5f5f5f5f5f5%3A0xabcdef1234567890!2sO'Connor%20Street%2C%20Enugu%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1700000000000&t=k&markers=color:red%7Clabel:A%7C6.452,7.4965"
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -131,92 +141,10 @@ export default function Contact() {
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
-          <p className="text-center text-gray-600 mt-4 font-medium">
+          <p className="text-center text-gray-600 mt-2 text-sm font-medium">
             12, Connor Street, Asata, Enugu, Nigeria
           </p>
-        </div>
-
-        {/* Contact Form - Wider & Centered */}
-        <div className="bg-white rounded-3xl p-10 text-center shadow-md">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 text-orange-500 text-sm font-medium mb-3">
-                ❤️ We’re Here To Help
-              </div>
-              <h2 className="text-4xl font-bold">Feel Free To Write Us Anytime</h2>
-              <p className="text-gray-600 mt-4 max-w-md mx-auto">
-                Whether you need support with human rights issues, want to report a violation, or have any questions — we’re ready to listen.
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="bg-white border border-gray-100 rounded-3xl p-12 shadow-sm">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
-                    placeholder="John Doe"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
-                    placeholder="you@example.com"
-                  />
-                </div>
-              </div>
-
-              <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="w-full border border-gray-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-orange-500 text-base"
-                  placeholder="How can we assist you?"
-                />
-              </div>
-
-              <div className="mb-10">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={8}
-                  className="w-full border border-gray-200 rounded-3xl px-6 py-5 focus:outline-none focus:border-orange-500 resize-y text-base"
-                  placeholder="Tell us more about your situation or how we can help..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold py-5 rounded-3xl flex items-center justify-center gap-3 text-lg transition-all active:scale-[0.985]"
-              >
-                {isSubmitting ? 'Sending Message...' : (
-                  <>
-                    Send Message <Send className="w-6 h-6" />
-                  </>
-                )}
-              </button>
-            </form>
-          </div>
-        </div>
+        </Reveal>
       </div>
 
       <Footer />

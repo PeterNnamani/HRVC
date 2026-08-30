@@ -92,13 +92,15 @@ export function Navbar() {
               <Search size={20} />
             </button>
 
-            {/* Make a Report Button */}
+            {/* Updated Make a Report Button */}
             <Button
               asChild
               variant="outline"
               className="border-orange-500 text-orange-600 hover:bg-orange-50 hover:text-black font-semibold px-6 rounded-3xl transition-all"
             >
-              <Link href="/report">Make a Report</Link>
+              <a href="https://forms.gle/cf4P9VknfNSHzcKT8">
+                Make a Report
+              </a>
             </Button>
 
             {/* Join Us Button */}
@@ -107,7 +109,7 @@ export function Navbar() {
               variant="default"
               className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 rounded-3xl"
             >
-              <Link href="/get-involved">Join Us</Link>
+              <Link href="https://forms.gle/dZwXWCz6o7MNVsGr6">Join Us</Link>
             </Button>
           </div>
 
@@ -159,7 +161,7 @@ export function Navbar() {
               </Button>
 
               <Button asChild className="w-full bg-orange-500 hover:bg-orange-600 text-white">
-                <Link href="/get-involved">Join Us</Link>
+                <Link href="https://forms.gle/dZwXWCz6o7MNVsGr6">Join Us</Link>
               </Button>
             </div>
           </div>

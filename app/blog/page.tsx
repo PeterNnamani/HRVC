@@ -2,6 +2,7 @@
 
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { Reveal, RevealArticle } from '@/components/MotionScroll';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Calendar, User, ArrowRight, X, ArrowLeft } from 'lucide-react';
@@ -61,12 +62,13 @@ export default function Blog() {
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
-      {/* Hero */}
-      <div className="relative bg-[#0f172a] text-white py-20">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold">Blog Standard</h1>
-          <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-5 py-1.5 rounded-full text-sm">
-            Home <span className="text-orange-400">»</span> Blog Standard
+      {/* Header */}
+      <div className="relative bg-cover text-white py-12 h-[35vh]" style={{ backgroundImage: "url('/ngo-boy.jpg')" }}>
+        <div className="absolute inset-0 bg-black/70 z-0"></div>
+        <div className="max-w-7xl mx-auto px-6 text-center relative z-10 flex flex-col justify-center items-center h-full">
+          <h1 className="text-4xl md:text-5xl font-bold">Blog</h1>
+          <div className="mt-3 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
+            Home <span className="text-orange-400">»</span> Blog
           </div>
         </div>
       </div>
@@ -74,7 +76,7 @@ export default function Blog() {
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid lg:grid-cols-12 gap-10">
           {/* Sidebar */}
-          <div className="lg:col-span-4 space-y-8">
+          <Reveal variant="right" className="lg:col-span-4 space-y-8">
             {/* Search */}
             <div className="bg-gray-50 rounded-3xl p-6">
               <h3 className="font-semibold mb-4">Search</h3>
@@ -140,14 +142,14 @@ export default function Blog() {
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Main Content - Smaller stylish cards */}
           <div className="lg:col-span-8 space-y-10">
-            {BLOG_POSTS.map((post) => {
+            {BLOG_POSTS.map((post, postIndex) => {
               const isExpanded = expandedPost === post.id;
               return (
-                <div key={post.id} className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all">
+                <RevealArticle key={post.id} variant="up" delay={postIndex * 0.1} className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all">
                   <div className="flex flex-col md:flex-row">
                     {/* Small stylish image */}
                     <div className="md:w-48 h-48 md:h-auto flex-shrink-0 relative">
@@ -197,7 +199,7 @@ export default function Blog() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </RevealArticle>
               );
             })}
 

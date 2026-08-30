@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Reveal } from '@/components/MotionScroll';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -163,7 +164,7 @@ export function VolunteerRegistrationForm() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-background py-8 px-3 sm:px-4 lg:px-6">
-      <div className="max-w-3xl mx-auto">
+      <Reveal variant="up" className="max-w-3xl mx-auto">
         <Card className="backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 border border-white/20 dark:border-white/10 shadow-2xl">
           <div className="p-6 sm:p-8">
             {/* Header */}
@@ -443,7 +444,7 @@ export function VolunteerRegistrationForm() {
             Your information is secure and used only for volunteer coordination.
           </p>
         </div>
-      </div>
+      </Reveal>
     </div>
   );
 }

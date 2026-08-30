@@ -2,6 +2,7 @@
 
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { RevealArticle } from '@/components/MotionScroll';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { ShoppingCart, Star, X } from 'lucide-react';
@@ -81,11 +82,12 @@ export default function ResourcesPage() {
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
-      {/* Hero */}
-      <div className="relative bg-[#0f172a] text-white py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold">Shop</h1>
-          <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
+      {/* Header */}
+      <div className="relative bg-cover text-white py-12 h-[35vh]" style={{ backgroundImage: "url('/ngo-boy.jpg')" }}>
+        <div className="absolute inset-0 bg-black/70 z-0"></div>
+        <div className="max-w-7xl mx-auto px-6 text-center relative z-10 flex flex-col justify-center items-center h-full">
+          <h1 className="text-4xl md:text-5xl font-bold">Resources</h1>
+          <div className="mt-3 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
             Home <span className="text-orange-400">»</span> Resources
           </div>
           <p className="mt-6 max-w-md mx-auto text-lg opacity-90">
@@ -118,9 +120,11 @@ export default function ResourcesPage() {
       {/* Products Grid */}
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {filteredProducts.map((product) => (
-            <div
+          {filteredProducts.map((product, index) => (
+            <RevealArticle
               key={product.id}
+              variant="scale"
+              delay={index * 0.06}
               className="group bg-white border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all cursor-pointer"
               onClick={() => setSelectedProduct(product)}
             >
@@ -161,7 +165,7 @@ export default function ResourcesPage() {
                   Add to Cart
                 </button>
               </div>
-            </div>
+            </RevealArticle>
           ))}
         </div>
       </div>

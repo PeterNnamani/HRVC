@@ -27,9 +27,24 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/report" className="hover:text-white transition-colors">
+                <a
+                  href="https://forms.gle/dZwXWCz6o7MNVsGr6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  Join Us
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://forms.gle/cf4P9VknfNSHzcKT8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
                   Report a Violation
-                </Link>
+                </a>
               </li>
               <li>
                 <Link href="/resources" className="hover:text-white transition-colors">
@@ -65,13 +80,13 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone size={16} />
-                <a href="tel:+2348078836002" className="hover:text-white transition-colors">
-                  +234 807 883 6002
+                <a href="tel:+2348037056016" className="hover:text-white transition-colors">
+                  +234 803 705 6016
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <MessageCircle size={16} />
-                <a href="https://wa.me/2348078836002" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                <a href="https://wa.me/2348037056016" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                   WhatsApp
                 </a>
               </div>

@@ -4,7 +4,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { useState } from 'react';
 import { ArrowRight, Award, Handshake } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Reveal, RevealArticle } from '@/components/MotionScroll';
 import Image from 'next/image';
 
 const partners = [
@@ -68,8 +68,19 @@ export default function PartnersPage() {
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
+      {/* Header */}
+      <div className="relative bg-cover text-white py-12 h-[35vh]" style={{ backgroundImage: "url('/ngo-boy.jpg')" }}>
+        <div className="absolute inset-0 bg-black/70 z-0"></div>
+        <div className="max-w-7xl mx-auto px-6 text-center relative z-10 flex flex-col justify-center items-center h-full">
+          <h1 className="text-4xl md:text-5xl font-bold">Partner With Us</h1>
+          <div className="mt-3 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
+            Home <span className="text-orange-400">»</span> Partner
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <div className="bg-[#0f172a] text-white py-16">
+      <div className="bg-[#0f172a] text-white py-16 hidden">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-3 bg-white/10 px-6 py-2 rounded-full text-sm mb-6">
             Home <span className="text-orange-400">»</span> Partners
@@ -83,7 +94,7 @@ export default function PartnersPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Partners Grid */}
-        <div className="mb-20">
+        <Reveal variant="up" className="mb-20">
           <div className="flex items-center gap-4 mb-12">
             <Handshake className="text-orange-500" size={42} />
             <div>
@@ -94,11 +105,10 @@ export default function PartnersPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {partners.map((partner, index) => (
-              <motion.div
+              <RevealArticle
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                variant="up"
+                delay={index * 0.1}
                 whileHover={{ y: -10 }}
                 className="group bg-white border border-gray-200 rounded-3xl p-10 flex flex-col items-center text-center hover:shadow-2xl hover:border-orange-200 transition-all duration-300"
               >
@@ -118,13 +128,13 @@ export default function PartnersPage() {
                 </div>
                 <h3 className="font-semibold text-2xl mb-3 text-[#0f172a]">{partner.name}</h3>
                 <p className="text-orange-600 font-medium">{partner.description}</p>
-              </motion.div>
+              </RevealArticle>
             ))}
           </div>
-        </div>
+        </Reveal>
 
         {/* Become a Partner Section */}
-        <div className="bg-[#0f172a] rounded-3xl p-12 md:p-16 text-white">
+        <Reveal variant="up" className="bg-[#0f172a] rounded-3xl p-12 md:p-16 text-white">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <Award className="mx-auto mb-6 text-orange-400" size={52} />
             <h2 className="text-4xl font-bold mb-4">Become Our Partner</h2>
@@ -226,7 +236,7 @@ export default function PartnersPage() {
               <ArrowRight size={24} />
             </button>
           </form>
-        </div>
+        </Reveal>
       </div>
 
       <Footer />

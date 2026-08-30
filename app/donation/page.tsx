@@ -2,6 +2,7 @@
 
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { Reveal } from '@/components/MotionScroll';
 import Image from 'next/image';
 import { useState } from 'react';
 import { ArrowRight, Search, Calendar, User } from 'lucide-react';
@@ -62,8 +63,19 @@ export default function Donation() {
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
+      {/* Header */}
+      <div className="relative bg-cover text-white py-12 h-[35vh]" style={{ backgroundImage: "url('/ngo-boy.jpg')" }}>
+        <div className="absolute inset-0 bg-black/70 z-0"></div>
+        <div className="max-w-7xl mx-auto px-6 text-center relative z-10 flex flex-col justify-center items-center h-full">
+          <h1 className="text-4xl md:text-5xl font-bold">Donate</h1>
+          <div className="mt-3 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
+            Home <span className="text-orange-400">»</span> Donation
+          </div>
+        </div>
+      </div>
+
       {/* Hero */}
-      <div className="relative bg-[#0f172a] text-white py-20">
+      <div className="relative bg-[#0f172a] text-white py-20 hidden">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h1 className="text-5xl md:text-6xl font-bold">Donation Details</h1>
           <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
@@ -75,7 +87,7 @@ export default function Donation() {
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid lg:grid-cols-12 gap-10">
           {/* Sidebar */}
-          <div className="lg:col-span-4 space-y-8">
+          <Reveal variant="right" className="lg:col-span-4 space-y-8">
             {/* Search */}
             <div className="bg-gray-50 rounded-3xl p-6">
               <h3 className="font-semibold mb-4">Search</h3>
@@ -141,10 +153,10 @@ export default function Donation() {
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Main Donation Content */}
-          <div className="lg:col-span-8">
+          <Reveal variant="left" className="lg:col-span-8">
             <div className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm">
               {/* Featured Image */}
               <div className="relative h-80">
@@ -300,7 +312,7 @@ export default function Donation() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
 

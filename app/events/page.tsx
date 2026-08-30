@@ -2,20 +2,33 @@
 
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { RevealArticle } from '@/components/MotionScroll';
 import Image from 'next/image';
-import { useState } from 'react';
-import { Calendar, MapPin, Clock, X, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { Calendar, MapPin, Clock, X, ArrowRight, BadgeCheck, CheckCircle2, Clock3, Sparkles, TicketPercent } from 'lucide-react';
+
+const DEFAULT_EVENT_AMOUNT = 25000;
+
+const initialFormState = {
+  fullName: '',
+  email: '',
+  phone: '',
+  organization: '',
+  attendanceMode: 'In-person',
+  state: '',
+};
 
 const EVENTS = [
   {
     id: 1,
-    title: "Human Rights Awareness Workshop for NYSC Corps Members",
-    date: "29 July",
-    image: "https://picsum.photos/id/1015/600/400",
-    description: "Join us for an interactive session on rights protection, legal aid, and how to report violations safely during service year.",
-    venue: "National Youth Service Corps Orientation Camp, Enugu",
-    fullDescription: "This workshop equips corps members with practical knowledge on human rights, how to document violations, and available support channels. Experts from legal aid organizations will be present.",
-    mission: "Empowering the next generation of leaders to defend dignity and justice.",
+    title: "International Peace Summit",
+    date: "17th – 18th September 2026",
+    image: "/WhatsApp Image 2026-08-30 at 13.25.35.jpeg",
+    description: "Engage Empower Educate Initiative presents the International Peace Summit in Abuja, Nigeria, with a focus on the power of the media in shaping the future of peace.",
+    venue: "Barcelona Hotel, Abuja, Nigeria",
+    fullDescription: "This summit is being held in commemoration of International Peace Day 2026. It brings together advocates, leaders, and stakeholders to discuss the role of information, media influence, and community action in building lasting peace. The event is designed to inspire collective commitment to peace and justice across Nigeria.",
+    mission: "Advancing peaceful dialogue, awareness, and action for a more just and peaceful future.",
   },
   {
     id: 2,
@@ -41,27 +54,285 @@ const EVENTS = [
 
 export default function Events() {
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState(initialFormState);
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://js.paystack.co/v1/inline.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      script.remove();
+    };
+  }, []);
+
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
+  };
+
+  const handlePaystackPayment = () => {
+    const paystackPublicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
+    const paystackWindow = window as typeof window & {
+      PaystackPop?: {
+        setup: (options: any) => { openIframe: () => void };
+      };
+    };
+
+    if (!paystackPublicKey || !paystackWindow.PaystackPop) {
+      alert('Paystack public key is not configured. Please add NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY to your environment variables.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    const [firstName, ...restName] = formData.fullName.trim().split(' ');
+
+    paystackWindow.PaystackPop.setup({
+      key: paystackPublicKey,
+      email: formData.email,
+      amount: DEFAULT_EVENT_AMOUNT * 100,
+      currency: 'NGN',
+      ref: `hrvc-${Date.now()}`,
+      firstname: firstName || '',
+      lastname: restName.join(' ') || '',
+      phone: formData.phone,
+      metadata: {
+        custom_fields: [
+          { display_name: 'Organization', variable_name: 'organization', value: formData.organization || 'Not provided' },
+          { display_name: 'Attendance Mode', variable_name: 'attendance_mode', value: formData.attendanceMode },
+          { display_name: 'State', variable_name: 'state', value: formData.state || 'Not provided' },
+        ],
+      },
+      callback: (response: { reference: string }) => {
+        alert(`Payment successful. Reference: ${response.reference}`);
+        setIsSubmitting(false);
+        setIsRegisterModalOpen(false);
+        setFormData(initialFormState);
+      },
+      onClose: () => {
+        setIsSubmitting(false);
+      },
+    }).openIframe();
+  };
+
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!formData.fullName || !formData.email || !formData.phone || !formData.organization || !formData.state) {
+      alert('Please fill in all required fields before continuing.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    handlePaystackPayment();
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
 
-      {/* Hero - Same as other pages */}
-      <div className="relative bg-[#0f172a] text-white py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold">Events</h1>
-          <div className="mt-4 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
+
+      {/* Header */}
+      <div className="relative bg-cover text-white py-12 h-[35vh]" style={{ backgroundImage: "url('/ngo-boy.jpg')" }}>
+        <div className="absolute inset-0 bg-black/70 z-0"></div>
+        <div className="max-w-7xl mx-auto px-6 text-center relative z-10 flex flex-col justify-center items-center h-full">
+          <h1 className="text-4xl md:text-5xl font-bold">Events</h1>
+          <div className="mt-3 inline-flex items-center gap-2 bg-white/10 px-6 py-2 rounded-full text-sm">
             Home <span className="text-orange-400">»</span> Events
           </div>
         </div>
       </div>
 
+      <section className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+        <div className="overflow-hidden rounded-[28px] border border-orange-200 bg-slate-950 text-white shadow-[0_22px_60px_rgba(15,23,42,0.20)]">
+          <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="relative min-h-[280px] lg:min-h-[360px]">
+              <Image
+                src="/WhatsApp Image 2026-08-30 at 13.25.35.jpeg"
+                alt="HRVC mandatory training program"
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-900/35 to-transparent" />
+            </div>
+
+            <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/10 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-orange-200">
+                <Sparkles className="size-3.5" aria-hidden />
+                Engage Empower Educate Initiative
+              </div>
+
+              <h2 className="mt-5 text-3xl font-black leading-tight text-white sm:text-4xl">
+                International Peace Summit
+              </h2>
+
+              <p className="mt-4 text-sm leading-6 text-slate-300 sm:text-base">
+                17th – 18th September 2026 • Barcelona Hotel, Abuja, Nigeria.<br />
+                Theme: The Power of the Feed: The Future of Peace.
+              </p>
+
+              <div className="mt-6 space-y-2 text-sm text-slate-200">
+                <p>This summit is very important for all HRVC members and will provide certificates to all participants.</p>
+                <p>Members who are unable to attend in person may participate online and still receive their certificate.</p>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-2 text-xs text-slate-100">
+                {[
+                  'Reservation support',
+                  'Transportation support',
+                  'Certificate awarded',
+                  'Online participation available',
+                ].map((item) => (
+                  <span key={item} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">
+                    {item}
+                  </span>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsRegisterModalOpen(true)}
+                className="mt-7 inline-flex w-fit items-center justify-center gap-2 rounded-full bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+              >
+                Register now
+                <ArrowRight className="size-4" aria-hidden />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {isRegisterModalOpen && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/70 p-4">
+          <div className="w-full max-w-2xl rounded-3xl bg-white p-6 shadow-2xl sm:p-8">
+            <div className="flex items-center justify-between gap-4 border-b border-slate-200 pb-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">Registration</p>
+                <h3 className="mt-2 text-2xl font-bold text-slate-900">International Peace Summit</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsRegisterModalOpen(false)}
+                className="rounded-full border border-slate-200 p-2 text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
+                aria-label="Close registration form"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleFormSubmit} className="mt-6 space-y-5">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="fullName" className="mb-1.5 block text-sm font-medium text-slate-700">Full name</label>
+                  <input
+                    id="fullName"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleFormChange}
+                    placeholder="Enter your full name"
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:bg-white"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-slate-700">Email address</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleFormChange}
+                    placeholder="you@example.com"
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:bg-white"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-slate-700">Phone number</label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleFormChange}
+                    placeholder="08012345678"
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:bg-white"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="organization" className="mb-1.5 block text-sm font-medium text-slate-700">Organization</label>
+                  <input
+                    id="organization"
+                    name="organization"
+                    value={formData.organization}
+                    onChange={handleFormChange}
+                    placeholder="Your organization or association"
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:bg-white"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="state" className="mb-1.5 block text-sm font-medium text-slate-700">State</label>
+                  <input
+                    id="state"
+                    name="state"
+                    value={formData.state}
+                    onChange={handleFormChange}
+                    placeholder="Your state"
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:bg-white"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="attendanceMode" className="mb-1.5 block text-sm font-medium text-slate-700">Attendance mode</label>
+                  <select
+                    id="attendanceMode"
+                    name="attendanceMode"
+                    value={formData.attendanceMode}
+                    onChange={handleFormChange}
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:bg-white"
+                  >
+                    <option value="In-person">In-person</option>
+                    <option value="Online">Online</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-orange-100 bg-orange-50 p-3 text-sm text-orange-800">
+                Registration fee: <span className="font-bold">₦{DEFAULT_EVENT_AMOUNT.toLocaleString()}</span>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-orange-300"
+              >
+                {isSubmitting ? 'Processing...' : 'Submit and Pay'}
+                <ArrowRight className="size-4" aria-hidden />
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Events Grid */}
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {EVENTS.map((event) => (
-            <div
+          {EVENTS.map((event, index) => (
+            <RevealArticle
               key={event.id}
+              variant="up"
+              delay={index * 0.09}
               className="bg-white border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all group"
             >
               <div className="relative">
@@ -98,7 +369,7 @@ export default function Events() {
                   Event Details <ArrowRight size={18} />
                 </button>
               </div>
-            </div>
+            </RevealArticle>
           ))}
         </div>
       </div>
