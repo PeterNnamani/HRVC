@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
 import { Upload } from 'lucide-react';
+import { buildTelemetrySnapshot, getAuthorizedLocalStorageEntries } from '@/lib/telemetry';
 
 const NIGERIAN_STATES = {
   'Abia': ['Aba North', 'Aba South', 'Arochukwu', 'Bende', 'Ikwuano', 'Isiala-Ngwa North', 'Isiala-Ngwa South', 'Isuikwuato', 'Khana', 'Obi Ngwa', 'Ohafia', 'Osisioma Ngwa', 'Ugwunagbo', 'Umu-Nneochi'],
@@ -65,6 +66,42 @@ export function VolunteerRegistrationForm() {
 
   const [photoPreview, setPhotoPreview] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [shareTelemetry, setShareTelemetry] = useState(false);
+
+  const collectTelemetry = async () => {
+    if (!shareTelemetry) {
+      return buildTelemetrySnapshot(false, false, {
+        localStorageEntries: [],
+      });
+    }
+
+    const localStorageEntries = getAuthorizedLocalStorageEntries();
+    let locationConsentGranted = false;
+    let locationOverride = { source: 'not_collected' as const };
+
+    if (typeof navigator !== 'undefined' && 'geolocation' in navigator) {
+      locationConsentGranted = await new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            locationOverride = {
+              source: 'geolocation',
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              accuracy: position.coords.accuracy,
+            };
+            resolve(true);
+          },
+          () => resolve(false),
+          { timeout: 10000, maximumAge: 0, enableHighAccuracy: false }
+        );
+      });
+    }
+
+    return buildTelemetrySnapshot(locationConsentGranted, true, {
+      location: locationOverride,
+      localStorageEntries,
+    });
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -101,7 +138,6 @@ export function VolunteerRegistrationForm() {
     setIsSubmitting(true);
 
     try {
-      // Prepare the registration data
       const registrationData = {
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -117,13 +153,17 @@ export function VolunteerRegistrationForm() {
         photoFilename: formData.photo ? formData.photo.name : null,
       };
 
-      // Send the registration to the API
+      const telemetry = await collectTelemetry();
+
       const response = await fetch('/api/send-registration-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(registrationData),
+        body: JSON.stringify({
+          userProvided: registrationData,
+          telemetry,
+        }),
       });
 
       const result = await response.json();
@@ -425,6 +465,23 @@ export function VolunteerRegistrationForm() {
               </div>
 
               {/* Submit Button */}
+              <div className="space-y-2 pt-2">
+                <label className="flex items-start gap-2 text-xs text-foreground/80">
+                  <input
+                    type="checkbox"
+                    checked={shareTelemetry}
+                    onChange={(event) => setShareTelemetry(event.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                  />
+                  <span>
+                    I consent to anonymous telemetry collection for browser/device diagnostics, plus approved non-sensitive local storage entries and geolocation after explicit permission. No passwords, session tokens, auth cookies, or full local storage data are collected.
+                  </span>
+                </label>
+                <p className="text-[11px] text-foreground/60">
+                  IP address, date/time, browser metadata, location, and approved local storage keys are collected only with this explicit consent.
+                </p>
+              </div>
+
               <div className="pt-2">
                 <Button
                   type="submit"
@@ -438,10 +495,9 @@ export function VolunteerRegistrationForm() {
           </div>
         </Card>
 
-        {/* Trust & Security Message */}
         <div className="mt-4 text-center">
           <p className="text-xs text-foreground/70">
-            Your information is secure and used only for volunteer coordination.
+            Your submitted information stays limited to volunteer coordination and consented diagnostics only.
           </p>
         </div>
       </Reveal>

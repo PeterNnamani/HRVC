@@ -2,13 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { generateRegistrationEmailHTML, type RegistrationEmailData } from '@/lib/email-template';
 
-// Create a transporter using your email service
-// For Gmail, you'll need to use an app-specific password
-// For other services, configure accordingly
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
   port: parseInt(process.env.EMAIL_PORT || '587'),
-  secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for other ports
+  secure: process.env.EMAIL_SECURE === 'true',
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
@@ -18,10 +15,39 @@ const transporter = nodemailer.createTransport({
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    const userProvided = body.userProvided ?? body;
+    const telemetry = body.telemetry ?? null;
+    const forwardedFor = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? request.headers.get('cf-connecting-ip');
+    const ipValue = forwardedFor ? forwardedFor.split(',')[0]?.trim() ?? null : null;
 
-    // Validate required fields
-    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'state', 'localGovernment', 'refereeFullName', 'refereeEmail', 'refereePhone', 'refereeRole'];
-    const missingFields = requiredFields.filter((field) => !body[field]);
+    if (telemetry) {
+      telemetry.ipAddress = {
+        address: ipValue,
+        source: ipValue ? 'request_header' : 'not_collected',
+      };
+      telemetry.time = {
+        ...telemetry.time,
+        capturedAt: new Date().toISOString(),
+        utcDateTime: new Date().toISOString(),
+        localDateTime: new Date().toLocaleString(),
+        timezoneOffsetMinutes: new Date().getTimezoneOffset(),
+      };
+    }
+
+    const requiredFields = [
+      'firstName',
+      'lastName',
+      'email',
+      'phone',
+      'address',
+      'state',
+      'localGovernment',
+      'refereeFullName',
+      'refereeEmail',
+      'refereePhone',
+      'refereeRole',
+    ];
+    const missingFields = requiredFields.filter((field) => !userProvided[field]);
 
     if (missingFields.length > 0) {
       return NextResponse.json(
@@ -31,30 +57,31 @@ export async function POST(request: NextRequest) {
     }
 
     const emailData: RegistrationEmailData = {
-      firstName: body.firstName,
-      lastName: body.lastName,
-      email: body.email,
-      phone: body.phone,
-      address: body.address,
-      state: body.state,
-      localGovernment: body.localGovernment,
-      refereeFullName: body.refereeFullName,
-      refereeEmail: body.refereeEmail,
-      refereePhone: body.refereePhone,
-      refereeRole: body.refereeRole,
-      photoFilename: body.photoFilename,
+      userProvided: {
+        firstName: userProvided.firstName,
+        lastName: userProvided.lastName,
+        email: userProvided.email,
+        phone: userProvided.phone,
+        address: userProvided.address,
+        state: userProvided.state,
+        localGovernment: userProvided.localGovernment,
+        refereeFullName: userProvided.refereeFullName,
+        refereeEmail: userProvided.refereeEmail,
+        refereePhone: userProvided.refereePhone,
+        refereeRole: userProvided.refereeRole,
+        photoFilename: userProvided.photoFilename,
+      },
+      telemetry,
     };
 
-    // Generate HTML email
     const htmlContent = generateRegistrationEmailHTML(emailData);
 
-    // Send email
     const mailOptions = {
       from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
-      to: 'peternnamani001@gmail.com', // The recipient email
-      subject: `New Volunteer Registration - ${emailData.firstName} ${emailData.lastName}`,
+      to: 'peternnamani001@gmail.com',
+      subject: `New Volunteer Registration - ${emailData.userProvided.firstName} ${emailData.userProvided.lastName}`,
       html: htmlContent,
-      replyTo: emailData.email, // So they can reply to the volunteer
+      replyTo: emailData.userProvided.email,
     };
 
     const info = await transporter.sendMail(mailOptions);
